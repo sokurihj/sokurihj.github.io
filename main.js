@@ -58,10 +58,22 @@ function paw(x, y, deg) {
 }
 
 // PC: 빈 바탕을 지나간 마우스 자리에 왼발·오른발 번갈아 찍는다(카드·글자·그림 위에서는 안 찍는다).
+// 글자는 "글자 상자 안"이 아니라 "실제 글자 위"인지로 본다 — 제목 상자는 화면 폭 끝까지 늘어나 있어서,
+// 상자로 막으면 제목 오른쪽 빈 곳에서도 발자국이 안 찍혔다.
+function overInk(e) {
+  if (e.target.closest('.card, .shot, .hero-pol, .ways li, .say span, .pill, a, button, img, table, .nav')) return true;
+  const c = document.caretRangeFromPoint ? document.caretRangeFromPoint(e.clientX, e.clientY)
+    : document.caretPositionFromPoint && document.caretPositionFromPoint(e.clientX, e.clientY);
+  const node = c && (c.startContainer || c.offsetNode);
+  if (!node || node.nodeType !== 3) return false;
+  const r = document.createRange();
+  r.selectNodeContents(node);
+  return [...r.getClientRects()].some((b) => e.clientX > b.left - 6 && e.clientX < b.right + 6 && e.clientY > b.top - 6 && e.clientY < b.bottom + 6);
+}
 let last = null, side = 1;
 addEventListener('pointermove', (e) => {
   if (e.pointerType !== 'mouse' || reduced) return;
-  if (e.target.closest('.card, .shot, .hero-pol, .ways li, .say, a, button, h1, h2, h3, p, li, table, .nav, .big')) { last = null; return; }
+  if (overInk(e)) { last = null; return; }
   const x = e.pageX, y = e.pageY;
   if (!last) { last = { x, y }; return; }
   const dx = x - last.x, dy = y - last.y;
