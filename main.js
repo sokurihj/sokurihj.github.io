@@ -57,11 +57,12 @@ function paw(x, y, deg) {
   el.addEventListener('animationend', () => el.remove());
 }
 
-// PC: 빈 바탕을 지나간 마우스 자리에 왼발·오른발 번갈아 찍는다(카드·글자·그림 위에서는 안 찍는다).
+// PC: 마우스가 지나간 자리에 왼발·오른발 번갈아 찍는다. 글자·링크·버튼 위에서만 안 찍는다 —
+// 앱 페이지는 화면 대부분이 앱 화면 그림이라 그림까지 막으면 발자국이 거의 안 보였다.
 // 글자는 "글자 상자 안"이 아니라 "실제 글자 위"인지로 본다 — 제목 상자는 화면 폭 끝까지 늘어나 있어서,
 // 상자로 막으면 제목 오른쪽 빈 곳에서도 발자국이 안 찍혔다.
 function overInk(e) {
-  if (e.target.closest('.card, .shot, .hero-pol, .ways li, .say span, .pill, a, button, img, table, .nav')) return true;
+  if (e.target.closest('.say span, .pill, a, button, table, .nav')) return true;
   const c = document.caretRangeFromPoint ? document.caretRangeFromPoint(e.clientX, e.clientY)
     : document.caretPositionFromPoint && document.caretPositionFromPoint(e.clientX, e.clientY);
   const node = c && (c.startContainer || c.offsetNode);
