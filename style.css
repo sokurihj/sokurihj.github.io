@@ -45,7 +45,8 @@ a { color: inherit; }
 .langs a { color: var(--faint); font-size: 12px; }
 .langs a[aria-current='page'] { color: var(--ink); }
 
-main { padding: 120px 24px 80px; max-width: 1180px; margin: 0 auto; }
+/* 아래 160px — 홈은 내용이 짧아 큰 화면에서 바닥글 위가 넉넉해지는데, 앱 페이지가 그보다 빠듯해 보이지 않게 */
+main { padding: 120px 24px 160px; max-width: 1180px; margin: 0 auto; }
 
 /* ── 첫 화면 ── */
 .hero { font-family: var(--title); font-weight: 700; font-size: clamp(36px, 7vw, 72px); line-height: 1.18; letter-spacing: -0.02em; margin: 0 0 18px; }
