@@ -1,128 +1,181 @@
-/* 냥냥비트 — 앱 만드는 사람의 작업실 사이트.
-   바탕은 모아냥 소개 페이지와 같은 탈색된 나무 보드, 앱은 폴라로이드로 붙인다(누르면 뒤집힘).
-   움직이는 장치는 둘뿐: 고른 카드 뒤에서 빼꼼하는 고양이, 빈 바닥에 찍히는 발자국. */
+/* 냥냥비트 — 흰 바탕의 깔끔한 앱 작업실 사이트.
+   꾸밈 대신 여백과 글자로 정리하고, 색은 앱 아이콘 포스터(앱마다 --poster)와 앱 화면에만 쓴다.
+   움직이는 장치는 둘: 앱 목록에서 고른 줄의 아이콘 뒤로 빼꼼하는 고양이, 폰 스크롤 발자국(main.js). */
 :root {
-  --paper: #fdfcf8;
-  --ink: #171512;
-  --muted: #6f6a5e;
-  --frame: #f1efec;
-  --frame-line: rgba(40, 36, 32, 0.42);
-  --wood-a: #cfc7b6;
-  --wood-b: #c3baa7;
-  --wood-line: rgba(80, 68, 50, 0.15);
-  --tape: rgba(198, 193, 183, 0.72);
-  --tape-line: rgba(52, 48, 42, 0.34);
+  --bg: #ffffff;
+  --ink: #141311;
+  --muted: #7a766d;
+  --faint: #b9b5ac;
+  --line: #ecebe7;
+  --title: 'Gowun Batang', serif;
 }
+:lang(ja) { --title: 'Zen Old Mincho', serif; }
 * { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 72px; }
 body {
-  margin: 0; min-height: 100svh; color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-  line-height: 1.6; word-break: keep-all;
-  background:
-    repeating-linear-gradient(180deg, rgba(94, 66, 38, 0.05) 0 1px, transparent 1px 6px, rgba(94, 66, 38, 0.028) 6px 7px, transparent 7px 15px),
-    repeating-linear-gradient(180deg, transparent 0 92px, var(--wood-line) 92px 94px),
-    linear-gradient(180deg, var(--wood-a), var(--wood-b));
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Hiragino Sans', sans-serif;
+  font-size: 15px; line-height: 1.7; letter-spacing: -0.01em;
   overflow-x: hidden;
 }
-.wrap { max-width: 1000px; margin: 0 auto; padding: 0 16px; position: relative; }
-header.top { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; }
-.logo { font-size: 20px; font-weight: 900; letter-spacing: -0.03em; }
-.top nav { display: flex; gap: 16px; font-size: 14px; font-weight: 700; }
-.top nav a { color: inherit; text-decoration: none; opacity: 0.72; }
+:lang(ko) { word-break: keep-all; }
+:lang(ja) { line-break: strict; }
+a { color: inherit; }
 
-.intro { padding: 56px 0 40px; }
-.intro h1 { margin: 0 0 12px; font-size: clamp(32px, 8vw, 54px); line-height: 1.2; letter-spacing: -0.04em; font-weight: 900; }
-.intro p { margin: 0; color: var(--muted); font-weight: 600; font-size: 16px; }
-.hand { font-family: 'Nanum Pen Script', cursive; font-size: 28px; font-weight: 400; color: var(--ink); }
-.intro .hand { display: inline-block; margin-top: 18px; transform: rotate(-3deg); }
-
-/* ── 앱 목록 ── */
-.apps { position: relative; padding: 70px 0 80px; }
-
-/* C 켜짐: 폴라로이드 보드 */
-.board-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 56px 40px; }
-.card {
-  --w: min(78vw, 260px);
-  position: relative; width: var(--w); height: calc(var(--w) * 1.25);
-  perspective: 1000px; cursor: pointer;
-  transform: rotate(var(--rot, 0deg));
-  -webkit-tap-highlight-color: transparent;
+/* ── 고정 머리말: 스크롤해도 맨 위에 붙어 있다. 내용이 비쳐 지나가도 읽히게 반투명 흰색 + 흐림 ── */
+.nav {
+  position: fixed; inset: 0 0 auto; z-index: 20; height: 60px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 0 20px;
+  background: rgba(255, 255, 255, 0.82);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 200ms;
 }
-.card-in { position: absolute; inset: 0; transition: transform 600ms cubic-bezier(0.3, 0.7, 0.3, 1); transform-style: preserve-3d; }
-.card.flipped .card-in { transform: rotateY(180deg); }
-.face {
-  position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
-  background: var(--frame); border: 1px solid var(--frame-line);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  padding: calc(var(--w) * 0.06) calc(var(--w) * 0.06) 0;
-  display: flex; flex-direction: column;
-}
-.face.back { transform: rotateY(180deg); padding: 26px 22px; justify-content: space-between; }
+.nav.scrolled { border-bottom-color: var(--line); }
+.brand { display: flex; align-items: center; gap: 8px; text-decoration: none; min-width: 0; }
+.brand img { width: 28px; height: 28px; object-fit: contain; }
+.brand b { font-size: 15px; font-weight: 800; letter-spacing: -0.02em; white-space: nowrap; }
+.nav nav { display: flex; align-items: center; gap: 18px; font-size: 13px; font-weight: 600; }
+.nav nav a { text-decoration: none; }
+.langs { display: flex; gap: 8px; padding-left: 14px; border-left: 1px solid var(--line); }
+.langs a { color: var(--faint); font-size: 12px; }
+.langs a[aria-current='page'] { color: var(--ink); }
+
+main { padding: 120px 24px 80px; max-width: 1180px; margin: 0 auto; }
+
+/* ── 첫 화면 ── */
+.hero { font-family: var(--title); font-weight: 700; font-size: clamp(36px, 7vw, 72px); line-height: 1.18; letter-spacing: -0.02em; margin: 0 0 18px; }
+.hero-p { color: var(--muted); font-size: 16px; margin: 0 0 72px; }
+
+/* ── 폴라로이드(앱 카드) — 흰 바탕 위라 테두리·테이프만 남긴 가벼운 버전. 모아냥 앱의 폴라로이드 비율을 따른다 ── */
 .tape {
-  position: absolute; left: 50%; top: -11px; width: 92px; height: 22px; z-index: 1;
-  background: var(--tape); border: 1px solid var(--tape-line);
-  transform: translateX(-50%) rotate(var(--tape-rot, -2deg));
+  position: absolute; left: 50%; top: -10px; z-index: 3; width: 72px; height: 20px;
+  background: rgba(214, 209, 198, 0.75); border: 1px solid rgba(60, 55, 46, 0.18);
+  transform: translateX(-50%) rotate(var(--tape-rot, -3deg));
 }
-.win { width: 100%; aspect-ratio: 1; background: #fff; box-shadow: inset 0 0 0 1px rgba(40, 36, 32, 0.48); display: grid; place-items: center; overflow: hidden; }
-.win img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.win .soon { font-family: 'Nanum Pen Script', cursive; font-size: 64px; color: rgba(23, 21, 18, 0.35); }
-.lab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-.lab b { font-size: 18px; letter-spacing: -0.02em; }
-.lab span { font-size: 13px; color: var(--muted); font-weight: 600; }
-.back h3 { margin: 0 0 8px; font-size: 20px; }
-.back p { margin: 0; font-size: 14.5px; color: #4a463e; }
-.back .links { display: flex; flex-wrap: wrap; gap: 8px; }
-.back .links a, .back .links span {
-  font-size: 13px; font-weight: 800; padding: 7px 12px; border-radius: 999px;
-  background: var(--ink); color: var(--paper); text-decoration: none;
+.cards { position: relative; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 48px 36px; padding-top: 40px; max-width: 980px; }
+.card {
+  position: relative; z-index: 2; display: flex; flex-direction: column; text-decoration: none;
+  background: #fbfaf7; border: 1px solid var(--line); box-shadow: 0 6px 18px rgba(30, 25, 15, 0.08);
+  padding: 7% 7% 0; transform: rotate(var(--rot, 0deg)); transition: transform 240ms, box-shadow 240ms;
 }
-.back .links span { background: rgba(23, 21, 18, 0.12); color: var(--muted); }
+a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px rgba(30, 25, 15, 0.12); }
+.card .win, .hero-pol .win { aspect-ratio: 1; background: var(--poster, #f3f1ec); display: grid; place-items: center; box-shadow: inset 0 0 0 1px rgba(30, 25, 15, 0.12); }
+.card .win img { width: 62%; height: auto; border-radius: 22%; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12); }
+.card .q { font-family: var(--title); font-size: 48px; color: var(--faint); }
+.card .lab { padding: 14px 4px 18px; text-align: center; font-size: 12px; color: var(--muted); line-height: 1.5; }
+.card .lab b { display: block; font-family: var(--title); font-size: 22px; color: var(--ink); }
+.card.soon { cursor: default; box-shadow: none; border-style: dashed; }
+.cards.small { grid-template-columns: repeat(auto-fill, minmax(170px, 200px)); gap: 40px 28px; }
+.cards.small .card .lab b { font-size: 18px; }
+/* 빼꼼 고양이 — 카드 뒤(z-index 1)에 깔려 윗변 위로 얼굴과 손만 보인다 */
+.sitter { position: absolute; left: 0; top: 0; width: 76px; height: auto; z-index: 1; pointer-events: none; }
+.cards.small .sitter { width: 60px; }
 
-/* 빼꼼 고양이: 카드 뒤에 깔려 위로만 고개를 내민다 */
-.card { z-index: 2; }
-.sitter { position: absolute; left: 0; top: 0; width: 104px; height: auto; z-index: 1; pointer-events: none; }
+/* ── 앱 페이지: 왼쪽 설명(스크롤해도 따라옴) / 오른쪽 포스터·화면 ── */
+.proj { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 64px; align-items: start; }
+.side { position: sticky; top: 100px; }
+.title { font-family: var(--title); font-weight: 700; font-size: clamp(40px, 6vw, 64px); line-height: 1.1; margin: 0 0 6px; letter-spacing: -0.02em; }
+.kind { margin: 0 0 18px; font-weight: 700; }
+.lead { margin: 0 0 8px; color: #3c3a35; }
+.note { margin: 0 0 8px; font-size: 13px; color: var(--muted); }
+.side h2 { margin: 28px 0 6px; font-size: 12px; font-weight: 800; letter-spacing: 0.04em; color: var(--muted); }
+.side p { margin: 0; color: #3c3a35; }
+.pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--line); font-size: 12px; font-weight: 700; text-decoration: none; color: var(--muted); }
+.pill.solid { background: var(--ink); border-color: var(--ink); color: #fff; }
+.side .legal { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 28px; font-size: 12px; }
+.legal a { color: var(--muted); }
 
-/* B: 발자국 */
-.paw { position: absolute; width: 22px; height: 22px; pointer-events: none; z-index: 1; animation: paw 1600ms ease-out forwards;
-  z-index: 6; /* 폰에서는 카드 옆 여백에 찍히므로 카드 그림자 위로 */ }
-.paw svg { width: 100%; height: 100%; fill: rgba(23, 21, 18, 0.32); }
+/* 고양이 한마디 */
+.say { display: flex; align-items: flex-end; gap: 8px; margin: 22px 0 0 !important; }
+.say img { width: 40px; height: auto; flex: none; }
+.say span {
+  position: relative; padding: 9px 14px; border: 1.5px solid var(--ink); border-radius: 16px 16px 16px 4px;
+  font-weight: 700; font-size: 14px; color: var(--ink); background: #fff;
+}
+/* 아이콘 폴라로이드 — 앱 페이지의 대표 그림 */
+.hero-pol {
+  position: relative; margin: 10px 0 0; width: min(100%, 340px);
+  background: #fbfaf7; border: 1px solid var(--line); box-shadow: 0 10px 26px rgba(30, 25, 15, 0.1);
+  padding: 22px 22px 0; transform: rotate(-2deg);
+}
+.hero-pol .win img { width: 56%; height: auto; border-radius: 22%; box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14); }
+.hero-pol figcaption { text-align: center; padding: 16px 0 22px; font-family: var(--title); font-size: 22px; font-weight: 700; }
+/* 앱 화면 — 테이프로 붙인 듯 아주 살짝 기울인다 */
+.shots { display: flex; gap: 22px; overflow-x: auto; margin: 48px -24px 0; padding: 18px 24px 22px; scroll-snap-type: x mandatory; }
+.shot { position: relative; flex: none; margin: 0; width: 210px; transform: rotate(var(--rot, 0deg)); scroll-snap-align: start; }
+.shot img { display: block; width: 100%; height: auto; border-radius: 20px; border: 1px solid var(--line); box-shadow: 0 6px 16px rgba(30, 25, 15, 0.08); }
+.shot .tape { width: 56px; top: -8px; }
+.faq { margin-top: 64px; max-width: 680px; }
+.faq h2, .others h2 { font-size: 12px; font-weight: 800; letter-spacing: 0.04em; color: var(--muted); margin: 0 0 8px; }
+.faq h3 { font-size: 15px; margin: 22px 0 4px; }
+.faq p { margin: 0; color: #3c3a35; }
+.others { margin-top: 72px; }
+
+/* ── 소개 — 앱 페이지와 같은 왼쪽/오른쪽 틀 ── */
+.about .side .legal { margin-top: 0; }
+.about .links { display: flex; gap: 14px; margin: 0; }
+.big { font-family: var(--title); font-weight: 700; font-size: clamp(30px, 4.6vw, 48px); line-height: 1.3; letter-spacing: -0.02em; margin: 0 0 24px; }
+.intro { font-size: 17px; color: #3c3a35; margin: 0 0 10px; max-width: 620px; }
+/* 만드는 방식 — 메모지 세 장 */
+.ways { list-style: none; padding: 0; margin: 48px 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 28px 22px; max-width: 760px; }
+.ways li { position: relative; background: #fbfaf7; border: 1px solid var(--line); padding: 22px 18px 18px; transform: rotate(var(--rot, 0deg)); }
+.ways li:nth-child(1) { --rot: -1deg; } .ways li:nth-child(2) { --rot: 0.8deg; } .ways li:nth-child(3) { --rot: -0.6deg; }
+.ways li::before { content: ''; position: absolute; left: 50%; top: -9px; width: 56px; height: 18px; background: rgba(214, 209, 198, 0.75); border: 1px solid rgba(60, 55, 46, 0.18); transform: translateX(-50%) rotate(-3deg); }
+.ways b { font-family: var(--title); font-size: 18px; }
+.ways p { margin: 6px 0 0; font-size: 14px; color: #3c3a35; }
+.sub { margin: 72px 0 0; font-size: 12px; font-weight: 800; letter-spacing: 0.04em; color: var(--muted); }
+
+/* ── 약관·처리방침 (냥냥서가 저장소의 privacy·terms가 이 스타일을 빌려 쓴다) ── */
+.legal-doc { max-width: 760px; margin: 0 auto; padding: 108px 24px 80px; font-size: 15px; line-height: 1.8; }
+.legal-back { font-size: 13px; font-weight: 700; color: var(--muted); text-decoration: none; }
+.legal-back:hover { color: var(--ink); }
+.legal-doc h1 { font-family: var(--title); font-weight: 700; font-size: clamp(30px, 5vw, 42px); line-height: 1.25; letter-spacing: -0.02em; margin: 18px 0 4px; }
+.legal-doc h1 + p { color: var(--muted); font-size: 13px; margin: 0 0 32px; }
+.legal-doc h2 { font-size: 17px; margin: 44px 0 12px; padding-top: 22px; border-top: 1px solid var(--line); }
+.legal-doc h3 { font-size: 15px; margin: 24px 0 8px; }
+.legal-doc p, .legal-doc li { color: #3c3a35; }
+.legal-doc strong { color: var(--ink); }
+.legal-doc ul { padding-left: 1.3em; }
+.legal-doc li { margin: 4px 0; }
+.legal-doc table { display: block; overflow-x: auto; width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13.5px; }
+.legal-doc th, .legal-doc td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+.legal-doc th { background: #fbfaf7; }
+/* 첫 "한눈에 보기" 목록은 폴라로이드 종이처럼 */
+.legal-doc h1 + p + h2 { border-top: 0; padding-top: 0; }
+.legal-doc h1 + p + h2 + ul { list-style: none; margin: 0; padding: 18px 22px; background: #fbfaf7; border: 1px solid var(--line); box-shadow: 0 6px 18px rgba(30, 25, 15, 0.06); }
+.legal-doc .summary { margin: 0 0 8px; padding: 18px 22px; background: #fbfaf7; border: 1px solid var(--line); box-shadow: 0 6px 18px rgba(30, 25, 15, 0.06); }
+.legal-doc .summary ul { margin: 6px 0 0; }
+.legal-tabs { display: flex; gap: 6px; margin-top: 14px; }
+
+.foot { display: flex; justify-content: space-between; gap: 16px; max-width: 1180px; margin: 0 auto; padding: 28px 24px 48px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+
+/* 폰 스크롤 발자국 */
+.paw { position: absolute; width: 20px; height: 20px; pointer-events: none; z-index: 5; animation: paw 1600ms ease-out forwards; }
+.paw svg { width: 100%; height: 100%; fill: rgba(20, 19, 17, 0.22); }
 @keyframes paw { 0% { opacity: 0; transform: var(--t) scale(0.6); } 12% { opacity: 1; transform: var(--t) scale(1); } 100% { opacity: 0; transform: var(--t) scale(1); } }
 
-footer { text-align: center; padding: 20px 16px 120px; font-size: 13px; color: rgba(23, 21, 18, 0.6); }
-
-@media (prefers-reduced-motion: reduce) {
-  .card-in { transition: none; }
-  .paw { display: none; }
+@media (max-width: 860px) {
+  .proj { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  .side { position: static; }
+  .about .main { order: -1; } /* 폰에서는 큰 한마디가 먼저, 연락처는 아래로 */
+  .shot { width: 170px; }
 }
-
-/* 머리말 언어 링크 */
-.top nav .lang { opacity: 0.5; }
-.top nav .lang[aria-current='page'] { opacity: 1; }
-.logo { display: flex; align-items: center; gap: 8px; color: inherit; text-decoration: none; }
-.logo img { width: 34px; height: 34px; }
-
-/* 소개(만든 사람) — 종이 쪽지 한 장 */
-.about { padding: 20px 0 60px; display: flex; justify-content: center; }
-.note {
-  position: relative; max-width: 560px; width: 100%;
-  background: var(--paper); border: 1px solid var(--frame-line);
-  box-shadow: 0 4px 14px rgba(60, 50, 35, 0.18);
-  padding: 36px 28px 28px; transform: rotate(-0.8deg);
-}
-.note h2 { margin: 0 0 10px; font-size: 24px; letter-spacing: -0.03em; }
-.note p { margin: 0 0 10px; color: #4a463e; font-weight: 500; }
-.note .hand { margin-top: 14px; display: block; transform: rotate(-2deg); transform-origin: left; }
-.note .links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
-.note .links a { font-size: 14px; font-weight: 800; color: var(--ink); }
-:lang(ja) .hand { font-family: 'Yomogi', cursive; font-size: 22px; }
-:lang(en) .hand { font-family: 'Caveat', cursive; font-weight: 600; }
-:lang(ja) body, body:lang(ja) { word-break: normal; line-break: strict; }
-
-/* 폰: 로고 + 메뉴 5개가 한 줄에 안 들어간다(390px에서 로고와 메뉴가 붙었다) — 앱·소개 바로가기는 접고 언어만 남긴다 */
 @media (max-width: 600px) {
-  .top nav a:not(.lang) { display: none; }
-  .top nav { gap: 10px; font-size: 13px; }
-  .logo { font-size: 16px; gap: 6px; }
-  .logo img { width: 28px; height: 28px; }
+  main { padding: 96px 18px 64px; }
+  .nav { height: 54px; padding: 0 14px; }
+  .nav nav { gap: 12px; }
+  .nav nav > a { display: none; }
+  .langs { border-left: 0; padding-left: 0; }
+  .hero-p { margin-bottom: 40px; }
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 18px; }
+  .card .lab b { font-size: 18px; }
+  .sitter { width: 58px; }
+  .shots { margin: 40px -18px 0; padding: 18px 18px 22px; }
+  .foot { flex-direction: column; gap: 4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .paw { display: none; }
 }

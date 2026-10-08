@@ -1,131 +1,232 @@
 #!/usr/bin/env python3
-"""냥냥비트 사이트 세 언어(index.html · ja/index.html · en/index.html)를 한 틀에서 만든다.
-문구·앱을 고치면 아래 APPS·STR·SNS를 고치고 `python3 build.py`를 다시 돌린다 — 세 파일을 손으로 고치면 언어끼리 어긋난다.
-모양은 style.css, 움직임(카드 뒤집기·빼꼼 고양이·발자국)은 main.js."""
+"""냥냥비트 사이트 전체를 한 틀에서 만든다 — 첫 화면 · 앱 페이지(앱마다 같은 틀) · 소개, 세 언어.
+  한국어 /, /moanyang/, /nyangnyang/, /about/   일본어 /ja/...   영어 /en/...
+문구·앱을 고치면 아래 APPS·UI를 고치고 `python3 build.py`를 다시 돌린다(손으로 HTML을 고치면 언어끼리 어긋난다).
+모양은 style.css, 움직임(목록에서 빼꼼하는 고양이·폰 스크롤 발자국)은 main.js.
+처리방침·약관은 예전 저장소(moanyang-site · nyangnyang-site)에 그대로 있다 — 앱스토어에 등록된 주소라 옮기지 않는다."""
+import hashlib, os
 from html import escape
-from string import Template
 
-# 새 소식을 올리는 계정. 주소를 채우면 소개 쪽지에 링크가 생긴다(비어 있으면 안 보인다).
-SNS = [('Threads', ''), ('Instagram', '')]
+LANGS = ('ko', 'ja', 'en')
+PREFIX = {'ko': '/', 'ja': '/ja/', 'en': '/en/'}
+EMAIL = 'sokurihj@gmail.com'
+SNS = [('Threads', 'https://www.threads.com/@nyangnyangbit'), ('Instagram', 'https://www.instagram.com/nyangnyangbit/')]  # 주소를 채우면 소개 페이지에 링크가 생긴다
 
-# 앱 목록 — 보드에 붙는 순서. 링크가 하나도 없으면 뒷면에 "준비 중"이 뜬다.
-APPS = [
-  dict(icon='assets/nyangnyang.png', links=[('page', {'ko': '/nyangnyang-site/', 'ja': '/nyangnyang-site/', 'en': '/nyangnyang-site/'}),
-                                             ('App Store', 'https://apps.apple.com/kr/app/id6806888734')],
-       ko=('냥냥서가', '마음에 든 책 구절을 찍어 모으는 서재', '책 속 문장을 사진으로 찍으면 글자로 바꿔 기록해 줘요. 읽은 책과 구절이 차곡차곡 쌓여요.'),
-       # 한국어 전용 앱이라 공식 일본어·영어 이름이 없다 — 이름을 지어내지 않고 로마자 표기 + "한국어 전용"을 밝힌다
-       ja=('Nyangnyang Seoga', 'お気に入りの一節を撮って集める本棚（韓国語のみ）', '本の一節を写真に撮ると文字にして記録してくれます。読んだ本と言葉が少しずつたまっていきます。'),
-       en=('Nyangnyang Seoga', 'Snap and keep your favorite book passages (Korean only)', 'Take a photo of a passage and it turns into text you can keep. Your books and favorite lines pile up, page by page.')),
-  dict(icon='assets/moanyang.png', links=[('page', {'ko': '/moanyang-site/', 'ja': '/moanyang-site/ja/', 'en': '/moanyang-site/en/'})],
-       ko=('모아냥', '안 쓴 돈으로 갖고 싶은 걸 물들이는 저금 앱', '아낀 돈을 하루 한 번 적으면, 찍어 둔 물건 사진이 모은 만큼 색으로 차올라요.'),
-       ja=('モアニャン', '使わなかったお金で、ほしいものに色をつける貯金アプリ', '節約したお金を1日1回記録すると、撮っておいたほしいものの写真が、たまったぶんだけ色づきます。'),
-       en=('MoaNyang', 'Color in what you want with money you didn’t spend', 'Log what you saved once a day, and the photo of what you want fills with color as you go.')),
-  dict(icon=None, links=[],
-       ko=('다음 앱', '고양이가 또 뭔가 준비하고 있어요', '아직 비밀이에요. 나오면 여기에 제일 먼저 붙일게요.'),
-       ja=('次のアプリ', 'ねこがまた何か準備しています', 'まだ秘密です。できたら、いちばんにここに貼ります。'),
-       en=('Next app', 'The cat is cooking up something new', 'Still a secret. It’ll be pinned here first when it’s ready.')),
-]
+def ver(f):  # 파일이 바뀌면 주소가 바뀌게 — 브라우저가 옛 스타일을 붙들고 있지 않도록
+    return hashlib.md5(open(f, 'rb').read()).hexdigest()[:8]
 
-STR = {
- 'ko': dict(title='냥냥비트 — 고양이랑 같이, 작은 앱을 만듭니다', desc='냥냥서가·모아냥을 만든 1인 앱 작업실 냥냥비트예요.',
-            brand='냥냥비트', nav_apps='앱', nav_about='소개', h1='고양이랑 같이,<br>작은 앱을 만듭니다',
-            sub='매일 조금씩 손이 가는 앱을 하나씩 만들고 있어요.', flip='뒤집기', page='소개 페이지', soon='준비 중',
-            about_h='냥냥비트는요', about_p='혼자 앱을 만드는 작은 작업실이에요. 책 읽기, 돈 모으기처럼 꾸준히 하기 어려운 일을 고양이와 함께라면 조금 더 오래 할 수 있다고 믿어요.',
-            about_hand='새 앱 소식은 SNS에서!', contact='문의'),
- 'ja': dict(title='ニャンニャンビット — ねこと一緒に、小さなアプリをつくっています', desc='Nyangnyang Seoga・モアニャンをつくった、ひとりのアプリ工房です。',
-            brand='ニャンニャンビット', nav_apps='アプリ', nav_about='紹介', h1='ねこと一緒に、<br>小さなアプリを<br>つくっています',
-            sub='毎日ちょっとずつ使いたくなるアプリを、ひとつずつつくっています。', flip='めくる', page='紹介ページ', soon='準備中',
-            about_h='ニャンニャンビットについて', about_p='ひとりでアプリをつくっている小さな工房です。読書や貯金のように続けにくいことも、ねこと一緒なら少し長く続けられると思っています。',
-            about_hand='新しいアプリのお知らせはSNSで!', contact='お問い合わせ'),
- 'en': dict(title='NyangNyangBit — Small apps, made with a cat', desc='NyangNyangBit is a one-person app studio behind Nyangnyang Seoga and MoaNyang.',
-            brand='NyangNyangBit', nav_apps='Apps', nav_about='About', h1='Small apps,<br>made with a cat',
-            sub='Little apps you’ll want to open a bit every day — made one at a time.', flip='flip', page='Learn more', soon='Coming soon',
-            about_h='About NyangNyangBit', about_p='A tiny one-person app studio. Habits like reading and saving are hard to keep up — but with a cat by your side, you might just stick with them a little longer.',
-            about_hand='new apps are announced on social!', contact='Contact'),
+UI = {
+ 'ko': dict(studio='냥냥비트', apps='앱', about='소개',
+            home_h='고양이랑 같이,<br>작은 앱을 만듭니다', home_p='매일 조금씩 손이 가는 앱을 하나씩 만들고 있어요.',
+            how='이런 앱이에요', platforms='지원 기기', get='받기', soon='곧 출시', faq='자주 묻는 질문',
+            others='다른 앱', privacy='개인정보 처리방침', terms='이용약관', contact='문의',
+            about_h='냥냥비트는요', about_p=['혼자 앱을 만드는 작은 작업실이에요.', '책 읽기, 돈 모으기처럼 꾸준히 하기 어려운 일을 고양이와 함께라면 조금 더 오래 할 수 있다고 믿어요. 그래서 앱마다 고양이가 한 마리씩 살고 있어요.'],
+            next_app=('다음 앱', '만드는 중'),
+            about_kind='혼자 꾸리는 앱 작업실', about_say='메일은 내가 직접 읽는다냥', made='만든 앱', sns_h='SNS',
+            about_big='꾸준히 하기 어려운 일을,<br>고양이랑 같이.',
+            ways=[('혼자 다 해요', '기획, 그림, 개발, 문의 답장까지 한 사람이 해요. 메일을 보내면 만든 사람이 직접 읽고 답해요.'),
+                  ('하루 잠깐이면 돼요', '오래 붙잡아 두는 앱보다, 하루에 한 번 잠깐 열고 닫는 앱을 만들어요.'),
+                  ('고양이가 한 마리씩', '앱마다 고양이가 살아요. 혼자 하는 기록이 덜 심심하도록요.')]),
+ 'ja': dict(studio='ニャンニャンビット', apps='アプリ', about='紹介',
+            home_h='ねこと一緒に、<br>小さなアプリを<br>つくっています', home_p='毎日ちょっとずつ使いたくなるアプリを、ひとつずつつくっています。',
+            how='こんなアプリです', platforms='対応端末', get='ダウンロード', soon='近日公開', faq='よくある質問',
+            others='ほかのアプリ', privacy='プライバシーポリシー', terms='利用規約', contact='お問い合わせ',
+            about_h='ニャンニャンビットについて', about_p=['ひとりでアプリをつくっている小さな工房です。', '読書や貯金のように続けにくいことも、ねこと一緒なら少し長く続けられると思っています。だから、どのアプリにもねこが一匹ずつ住んでいます。'],
+            next_app=('次のアプリ', 'つくっています'),
+            about_kind='ひとりで営むアプリ工房', about_say='メールはわたしが直接読むにゃ', made='つくったアプリ', sns_h='SNS',
+            about_big='続けにくいことを、<br>ねこと一緒に。',
+            ways=[('ぜんぶひとりで', '企画、イラスト、開発、お問い合わせへの返信まで、ひとりで担当しています。メールはつくった本人が読んでお返事します。'),
+                  ('一日ちょっとだけ', '長く引きとめるアプリより、一日に一度さっと開いて閉じるアプリをつくっています。'),
+                  ('ねこが一匹ずつ', 'どのアプリにもねこが住んでいます。ひとりで続ける記録が、少しでも楽しくなるように。')]),
+ 'en': dict(studio='NyangNyangBit', apps='Apps', about='About',
+            home_h='Small apps,<br>made with a cat', home_p='Little apps you’ll want to open a bit every day — made one at a time.',
+            how='What it does', platforms='Platforms', get='Get the app', soon='Coming soon', faq='FAQ',
+            others='Other apps', privacy='Privacy Policy', terms='Terms', contact='Contact',
+            about_h='About NyangNyangBit', about_p=['A tiny one-person app studio.', 'Habits like reading and saving are hard to keep up — but with a cat by your side, you might stick with them a little longer. So every app has a cat living in it.'],
+            next_app=('Next app', 'In the works'),
+            about_kind='A one-person app studio', about_say='I read every email myself, meow', made='Apps', sns_h='Social',
+            about_big='Hard-to-keep habits,<br>kept with a cat.',
+            ways=[('One person, all of it', 'Planning, drawing, coding and answering your emails — all done by one person. Your message is read by the person who made the app.'),
+                  ('A minute a day', 'Not apps that hold on to you, but apps you open for a moment once a day and close again.'),
+                  ('A cat in every app', 'Every app has a cat living in it, so keeping a record on your own feels a little less lonely.')]),
 }
 
-HAND = {'ko': 'Nanum+Pen+Script', 'ja': 'Yomogi', 'en': 'Caveat:wght@600'}
-NAV = {'ko': ('./', 'ja/', 'en/'), 'ja': ('../', './', '../en/'), 'en': ('../', '../ja/', './')}
+# 앱 — 첫 화면 목록·앱 페이지·아래 "다른 앱" 목록이 모두 여기서 나온다. 순서가 곧 번호.
+APPS = [
+ dict(slug='nyangnyang', en_name='Nyangnyang Seoga', icon='assets/nyangnyang.png', poster='#efe0c2',
+      shots=[f'assets/shots/nyangnyang-{i}.webp' for i in range(1, 7)],
+      store=[('App Store', 'https://apps.apple.com/kr/app/id6806888734')],
+      legal={'privacy': '/nyangnyang-site/privacy.html', 'terms': '/nyangnyang-site/terms.html'},
+      meta={'released': {'ko': '2026.09 출시', 'ja': '2026.09 リリース', 'en': 'Released 2026.09'}, 'platform': 'iOS', 'price': {'ko': '무료 · 일부 인앱 구매', 'ja': '無料 · 一部アプリ内課金', 'en': 'Free · optional in-app purchases'}},
+      pills=['iPhone'],
+      ko=dict(name='냥냥서가', kind='책 구절 기록', lead='오늘 읽은 문장, 냥냥서가에 옮겨둘까요? 책 페이지를 사진으로 찍으면 문장이 그대로 기록돼요.',
+              say='좋은 문장, 사진첩에 묻어 두지 말라냥',
+              how='책을 펼치고 카메라로 찍으면 문장을 인식해 옮겨 적어요. 읽기 전·읽는 중·완독으로 서재를 나누고, 구절마다 메모와 단어장, 등장인물 관계도까지 남길 수 있어요. 책을 등록할 때마다 캣타워에 고양이가 한 마리씩 늘어나요.',
+              note=''),
+      ja=dict(name='Nyangnyang Seoga', kind='本の一節の記録（韓国語のみ）', lead='今日読んだ一文を、残しておきませんか。本のページを写真に撮ると、文章がそのまま記録されます。',
+              say='いい一文、カメラロールに埋もれさせないでにゃ',
+              how='本を開いてカメラで撮ると、文章を読み取って書き写します。読む前・読書中・読了で本棚を分け、一節ごとのメモや単語帳、登場人物の相関図も残せます。本を登録するたびに、キャットタワーのねこが一匹ずつ増えていきます。',
+              note='現在、アプリは韓国語のみです。'),
+      en=dict(name='Nyangnyang Seoga', kind='Book passage log (Korean only)', lead='Found a line worth keeping? Snap the page and the passage is saved as text.',
+              say='Don’t let great lines get lost in your camera roll, meow',
+              how='Open your book and take a photo — the passage is recognized and written out for you. Sort your shelf into to-read, reading and finished, and keep notes, a word list and even a character map for each book. Every book you add brings one more cat to your cat tower.',
+              note='The app is currently available in Korean only.')),
+ dict(slug='moanyang', en_name='MoaNyang', icon='assets/moanyang.png', poster='#ece8de',
+      shots={l: [f'assets/shots/moanyang-{l}-{t}.webp' for t in ('entry', 'home', 'detail', 'history', 'shop')] for l in LANGS},
+      store=[],
+      legal={'privacy': {'ko': '/moanyang-site/privacy.html', 'ja': '/moanyang-site/ja/privacy.html', 'en': '/moanyang-site/en/privacy.html'}},
+      # released: 출시 전이라 비움 — '곧 출시'는 받기 버튼에 이미 있다
+      meta={'released': '', 'platform': 'iOS', 'price': {'ko': '무료 · 필름 팩 인앱 구매', 'ja': '無料 · フィルムパックはアプリ内課金', 'en': 'Free · film packs in-app'}},
+      pills=['iOS 15+', 'iPhone', '한국어 · English · 日本語'],
+      faq={"ko": "<h3>기록은 어디에 저장되나요?</h3>\n<p>모은 돈, 날짜별 기록, 물건 목록은 모두 내 기기에만 저장돼요. 서버에는 보내지 않아서 앱을 삭제하면 기록도 함께 사라져요. 앱을 지우거나 폰을 바꾸기 전에 <b>설정 → 백업 파일 만들기</b>로 파일을 저장해 두면, 그 파일로 언제든 되살릴 수 있어요.</p>\n<h3>필름이 뭔가요?</h3>\n<p>물건 사진을 픽셀 그림으로 바꿀 때 한 장씩 쓰여요. 처음 한 장은 무료이고, 그 뒤로는 필름 팩을 사서 쓸 수 있어요. 변환에 실패하면 필름은 돌아와요.</p>\n<h3>앱을 지웠다 다시 깔면 필름은 어떻게 되나요?</h3>\n<p>그대로 남아 있어요. 필름은 아이폰 키체인에 보관된 번호로 관리돼서 다시 설치해도 이어지고, iCloud 키체인을 켜 두면 같은 Apple 계정의 새 아이폰으로도 넘어가요. 결제했는데 필름이 들어오지 않았다면 결제한 날짜와 상품을 적어 메일로 알려 주세요.</p>\n<h3>사진은 어디로 보내지나요?</h3>\n<p>픽셀 그림으로 바꾸기 위해 외부 AI 서비스(fal.ai)로 보내지고, 저장되지 않아요. 자세한 내용은 <a href=\"/moanyang-site/privacy.html\">개인정보 처리방침</a>에 있어요.</p>\n<h3>환불은 어떻게 하나요?</h3>\n<p>결제는 Apple이 처리해서 환불도 Apple에 요청해야 해요. <a href=\"https://reportaproblem.apple.com\">reportaproblem.apple.com</a>에서 신청할 수 있어요.</p>", "ja": "<h3>記録はどこに保存されますか？</h3>\n<p>たまったお金、日ごとの記録、ほしいものリストはすべてこの端末にのみ保存されます。サーバーには送られないため、アプリを削除すると記録も消えます。アプリの削除や機種変更の前に<b>設定 → バックアップファイルを作る</b>でファイルを保存しておけば、そのファイルからいつでも戻せます。</p>\n<h3>フィルムとは何ですか？</h3>\n<p>写真をドット絵に変換するときに1枚ずつ使います。最初の1枚は無料で、その後はフィルムパックを購入して使えます。変換に失敗した場合、フィルムは戻ります。</p>\n<h3>アプリを入れ直すとフィルムはどうなりますか？</h3>\n<p>そのまま残ります。フィルムはiPhoneのキーチェーンに保管した番号で管理しているため、再インストールしても引き継がれ、iCloudキーチェーンをオンにしていれば同じApple アカウントの新しいiPhoneにも引き継がれます。購入後にフィルムが届かない場合は、購入日と商品を添えてメールでお問い合わせください。</p>\n<h3>写真はどこに送られますか？</h3>\n<p>ドット絵に変換するため外部のAIサービス（fal.ai）に送信され、保存されません。詳しくは<a href=\"/moanyang-site/ja/privacy.html\">プライバシーポリシー</a>をご確認ください。</p>\n<h3>返金するには？</h3>\n<p>決済はAppleが行うため、返金もAppleにご請求ください。<a href=\"https://reportaproblem.apple.com\">reportaproblem.apple.com</a>から申請できます。</p>", "en": "<h3>Where are my records stored?</h3>\n<p>Your savings, daily log, and wish list are stored only on this device. They aren’t sent to a server, so deleting the app deletes them too. Before deleting the app or switching phones, save a file with <b>Settings → Make a backup file</b> — you can restore from it anytime.</p>\n<h3>What are films?</h3>\n<p>One film is used each time a photo is turned into pixel art. Your first film is free; after that you can buy film packs. If a conversion fails, the film is returned.</p>\n<h3>What happens to my films if I reinstall the app?</h3>\n<p>They stay. Films are tied to a number kept in your iPhone’s Keychain, so they carry over when you reinstall — and to a new iPhone on the same Apple Account if iCloud Keychain is on. If films didn’t arrive after a purchase, email us with the purchase date and product.</p>\n<h3>Where do my photos go?</h3>\n<p>They’re sent to an external AI service (fal.ai) to make the pixel art and aren’t stored. See the <a href=\"/moanyang-site/en/privacy.html\">Privacy Policy</a> for details.</p>\n<h3>How do I get a refund?</h3>\n<p>Apple processes all payments, so refunds are requested from Apple at <a href=\"https://reportaproblem.apple.com\">reportaproblem.apple.com</a>.</p>"},
+      ko=dict(name='모아냥', kind='안 쓴 돈 저금', lead='커피 한 잔, 택시 한 번. 오늘 아낀 돈을 적으면 찍어 둔 물건 사진이 모은 만큼 색으로 차올라요.',
+              say='아낀 돈이 숫자로만 남으면 금방 잊는다냥',
+              how='하루 한 번 안 쓴 돈을 동전과 지폐로 적어요. 갖고 싶은 물건을 찍으면 AI가 픽셀 그림 폴라로이드로 바꿔 보드에 붙이고, 모은 만큼 아래에서부터 색이 차올라요. 물건을 사면 코인이 생겨 고양이에게 모자·목걸이·안경을 씌워 줄 수 있어요.',
+              note=''),
+      ja=dict(name='モアニャン', kind='使わなかったお金の貯金', lead='コーヒー1杯、タクシー1回。今日節約したお金を記録すると、撮っておいたほしいものの写真が、たまったぶんだけ色づきます。',
+              say='節約したお金、数字だけだとすぐ忘れちゃうにゃ',
+              how='使わなかったお金を、1日1回、硬貨とお札で記録します。ほしいものを撮るとAIがドット絵のインスタント写真にしてボードに貼り、たまったぶんだけ下から色づいていきます。買うとコインがもらえて、ねこに帽子・ネックレス・メガネをつけてあげられます。',
+              note=''),
+      en=dict(name='MoaNyang', kind='Save what you didn’t spend', lead='A coffee here, a cab ride there. Log what you saved today, and the photo of what you want fills with color as you go.',
+              say='Saved money is easy to forget when it’s just a number, meow',
+              how='Once a day, tap coins and bills to log what you didn’t spend. Snap something you want and AI turns it into a pixel-art snapshot pinned to your board — and it fills with color from the bottom as you save. Buy it and you earn coins to dress your cat in hats, necklaces and glasses.',
+              note='')),
+]
 
-PAGE = Template("""<!doctype html>
-<html lang="$lang">
+def head(lang, title, desc, depth):
+    up = '../' * depth
+    hand = {'ko': 'Gowun+Batang:wght@700', 'ja': 'Zen+Old+Mincho:wght@700', 'en': 'Gowun+Batang:wght@700'}[lang]
+    return f"""<!doctype html>
+<html lang="{lang}">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>$title</title>
-<meta name="description" content="$desc">
-<link rel="icon" type="image/png" href="${up}assets/favicon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{escape(title)}</title>
+<meta name="description" content="{escape(desc)}">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=$hand_font&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="${up}style.css">
+<link href="https://fonts.googleapis.com/css2?family={hand}&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/style.css?v={ver('style.css')}">
 </head>
 <body>
-<div class="wrap">
-  <header class="top">
-    <a class="logo" href="$home"><img src="${up}assets/cat.png" alt="" width="34" height="34">$brand</a>
-    <nav><a href="#apps">$nav_apps</a><a href="#about">$nav_about</a>$langs</nav>
-  </header>
+"""
 
-  <section class="intro">
-    <h1>$h1</h1>
-    <p>$sub</p>
-  </section>
+def header(lang, path):
+    u = UI[lang]; p = PREFIX[lang]
+    langs = ''.join(f'<a class="lang" href="{PREFIX[l]}{path}"{" aria-current=\"page\"" if l == lang else ""}>{l.upper()}</a>' for l in LANGS)
+    return f"""<header class="nav">
+  <a class="brand" href="{p}"><img src="/assets/cat.png" alt="" width="28" height="28"><b>{u['studio']}</b></a>
+  <nav><a href="{p}#apps">{u['apps']}</a><a href="{p}about/">{u['about']}</a><span class="langs">{langs}</span></nav>
+</header>
+"""
 
-  <!-- 앱 보드: 폴라로이드를 누르면 뒤집힌다. 고양이는 고른 카드 뒤에서 빼꼼한다(main.js) -->
-  <section class="apps" id="apps">
-    <div class="board-grid">
-$cards
-    </div>
-    <img class="sitter" id="sitter" src="${up}assets/cat.png" alt="">
-  </section>
-
-  <section class="about" id="about">
-    <div class="note">
+def cards(lang, current=None, small=False):
+    """앱 폴라로이드 — 첫 화면과 앱 페이지 아래 "다른 앱"에 같이 쓴다. 고양이가 고른 카드 윗변 뒤에서 빼꼼한다(main.js)."""
+    p = PREFIX[lang]; out = []
+    for i, a in enumerate(APPS):
+        t = a[lang]
+        if a['slug'] == current: continue
+        out.append(f"""    <a class="card" href="{p}{a['slug']}/" style="--rot:{('-2deg', '1.6deg', '-1deg')[i % 3]}; --poster:{a['poster']}">
       <span class="tape"></span>
-      <h2>$about_h</h2>
-      <p>$about_p</p>
-      <span class="hand">$about_hand</span>
-      <div class="links">$sns<a href="mailto:sokurihj@gmail.com">$contact sokurihj@gmail.com</a></div>
-    </div>
-  </section>
+      <span class="win"><img src="/{a['icon']}" alt="" width="200" height="200"></span>
+      <span class="lab"><b>{escape(t['name'])}</b>{escape(t['kind'])}</span>
+    </a>""")
+    n, k = UI[lang]['next_app']
+    out.append(f"""    <span class="card soon" style="--rot:1.2deg; --poster:#f3f1ec"><span class="tape"></span><span class="win"><span class="q">?</span></span><span class="lab"><b>{n}</b>{k}</span></span>""")
+    return f'<div class="cards{" small" if small else ""}">\n' + '\n'.join(out) + '\n<img class="sitter" src="/assets/cat.png" alt=""></div>'
 
-  <footer>$brand · sokurihj@gmail.com</footer>
-</div>
-<script src="${up}main.js"></script>
+def footer(lang):
+    u = UI[lang]
+    return f"""<footer class="foot"><span>© 2026 {u['studio']}</span><a href="mailto:{EMAIL}">{EMAIL}</a></footer>
+<script src="/main.js?v={ver('main.js')}"></script>
 </body>
 </html>
-""")
+"""
 
-CARD = Template("""      <div class="card" style="--rot:$rot" tabindex="0" role="button" aria-pressed="false" aria-label="$name $flip">
-        <div class="card-in">
-          <div class="face front">
-            <span class="tape" style="--tape-rot:$tape"></span>
-            <div class="win">$win</div>
-            <div class="lab"><b>$name</b><span>$line</span></div>
-          </div>
-          <div class="face back">
-            <div><h3>$name</h3><p>$back</p></div>
-            <div class="links">$links</div>
-          </div>
-        </div>
-      </div>""")
+def pick(v, lang):
+    return v[lang] if isinstance(v, dict) else v
 
-for lang, s in STR.items():
-    up = '' if lang == 'ko' else '../'
-    links = NAV[lang]
-    langs = ''.join(f'<a class="lang" href="{h}"{" aria-current=\"page\"" if l == lang else ""}>{n}</a>'
-                    for h, l, n in zip(links, ('ko', 'ja', 'en'), ('한국어', '日本語', 'English')))
-    cards = []
-    for i, app in enumerate(APPS):
-        name, line, back = (escape(t) for t in app[lang])
-        win = f'<img src="{up}{app["icon"]}" alt="">' if app['icon'] else '<span class="soon">?</span>'
-        ls = ''.join(f'<a href="{href[lang] if isinstance(href, dict) else href}">{s["page"] if label == "page" else label}</a>'
-                     for label, href in app['links']) or f'<span>{s["soon"]}</span>'
-        cards.append(CARD.substitute(rot=('-2deg', '1.5deg', '-1deg')[i % 3], tape=f'{3 if i % 2 else -2}deg',
-                                     name=name, line=line, back=back, win=win, links=ls, flip=s['flip']))
-    sns = ''.join(f'<a href="{url}">{label}</a>' for label, url in SNS if url)
-    html = PAGE.substitute(s, lang=lang, up=up, home=links[('ko', 'ja', 'en').index(lang)], langs=langs,
-                           cards='\n'.join(cards), sns=sns, hand_font=HAND[lang])
-    open('index.html' if lang == 'ko' else f'{lang}/index.html', 'w').write(html)
-    print('wrote', lang)
+def write(path, html):
+    os.makedirs(os.path.dirname(path) or '.', exist_ok=True)
+    open(path, 'w').write(html)
+    print('wrote', path)
+
+for lang in LANGS:
+    u = UI[lang]; base = '' if lang == 'ko' else f'{lang}/'
+    # ── 첫 화면 ──
+    write(f'{base}index.html', head(lang, f"{u['studio']} — {u['home_h'].replace('<br>', ' ')}", u['home_p'], 0) + header(lang, '') + f"""<main class="home">
+  <h1 class="hero">{u['home_h']}</h1>
+  <p class="hero-p">{u['home_p']}</p>
+  <section id="apps" aria-label="{u['apps']}">
+{cards(lang)}
+  </section>
+</main>
+""" + footer(lang))
+
+    # ── 앱 페이지 ──
+    for a in APPS:
+        t = a[lang]; m = a['meta']
+        shots = a['shots'][lang] if isinstance(a['shots'], dict) else a['shots']
+        store = ''.join(f'<a class="pill solid" href="{h}">{escape(n)}</a>' for n, h in a['store']) or f'<span class="pill">App Store · {u["soon"]}</span>'
+        legal = ''.join(f'<a href="{pick(h, lang)}">{u[k]}</a>' for k, h in a['legal'].items())
+        faq = ''
+        if 'faq' in a:
+            faq = f'<section class="faq"><h2>{u["faq"]}</h2>\n' + a['faq'][lang] + '\n</section>'
+        note = f'<p class="note">{escape(t["note"])}</p>' if t['note'] else ''
+        write(f'{base}{a["slug"]}/index.html', head(lang, f"{t['name']} — {t['kind']} · {u['studio']}", t['lead'], 1) + header(lang, f"{a['slug']}/") + f"""<main class="proj" style="--poster:{a['poster']}">
+  <aside class="side">
+    <h1 class="title">{escape(t['name'])}</h1>
+    <p class="kind">{escape(t['kind'])}</p>
+    <p class="lead">{escape(t['lead'])}</p>
+    {note}
+    <p class="say"><img src="/assets/cat.png" alt="" width="40" height="40"><span>{escape(t['say'])}</span></p>
+    <h2>{u['how']}</h2>
+    <p>{escape(t['how'])}</p>
+    <h2>{u['platforms']}</h2>
+    <div class="pills">{''.join(f'<span class="pill">{escape(x)}</span>' for x in a['pills'] + [pick(m['released'], lang), pick(m['price'], lang)] if x)}</div>
+    <h2>{u['get']}</h2>
+    <div class="pills">{store}</div>
+    <p class="legal">{legal}<a href="mailto:{EMAIL}">{u['contact']}</a></p>
+  </aside>
+  <div class="main">
+    <figure class="hero-pol"><span class="tape"></span><span class="win"><img src="/{a['icon']}" alt="{escape(t['name'])}" width="200" height="200"></span><figcaption>{escape(t['name'])}</figcaption></figure>
+    <div class="shots">{''.join(f'<figure class="shot" style="--rot:{("-1.5deg", "1.2deg", "-0.8deg", "1.6deg", "-1.2deg")[i % 5]}"><span class="tape"></span><img src="/{s}" alt="{escape(t["name"])}" loading="lazy"></figure>' for i, s in enumerate(shots))}</div>
+    {faq}
+    <section class="others" aria-label="{u['others']}"><h2>{u['others']}</h2>
+{cards(lang, a['slug'], small=True)}
+    </section>
+  </div>
+</main>
+""" + footer(lang))
+
+    # ── 소개: 왼쪽에 연락처·앱 목록, 오른쪽에 큰 한마디·만드는 방식·앱 폴라로이드 ──
+    sns = ''.join(f'<a href="{h}">{n}</a>' for n, h in SNS if h)
+    sns = f'<h2>{u["sns_h"]}</h2><p class="links">{sns}</p>' if sns else ''
+    app_pills = ''.join(f'<a class="pill" href="{PREFIX[lang]}{a["slug"]}/">{escape(a[lang]["name"])}</a>' for a in APPS)
+    privacy = ''.join(f'<a href="{pick(a["legal"]["privacy"], lang)}">{escape(a[lang]["name"])}</a>' for a in APPS if 'privacy' in a['legal'])
+    ways = ''.join(f'<li><b>{escape(h)}</b><p>{escape(t)}</p></li>' for h, t in u['ways'])
+    write(f'{base}about/index.html', head(lang, f"{u['about_h']} · {u['studio']}", u['about_p'][0], 1) + header(lang, 'about/') + f"""<main class="proj about">
+  <aside class="side">
+    <h1 class="title">{u['studio']}</h1>
+    <p class="kind">{u['about_kind']}</p>
+    <p class="say"><img src="/assets/cat.png" alt="" width="40" height="40"><span>{escape(u['about_say'])}</span></p>
+    <h2>{u['contact']}</h2>
+    <p><a href="mailto:{EMAIL}">{EMAIL}</a></p>
+    {sns}
+    <h2>{u['apps']}</h2>
+    <div class="pills">{app_pills}</div>
+    <h2>{u['privacy']}</h2>
+    <p class="legal">{privacy}</p>
+  </aside>
+  <div class="main">
+    <p class="big">{u['about_big']}</p>
+    {''.join(f'<p class="intro">{escape(x)}</p>' for x in u['about_p'])}
+    <ol class="ways">{ways}</ol>
+    <section aria-label="{u['made']}"><h2 class="sub">{u['made']}</h2>
+{cards(lang)}
+    </section>
+  </div>
+</main>
+""" + footer(lang))
