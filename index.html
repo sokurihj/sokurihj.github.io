@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>냥냥비트 — 고양이랑 같이, 작은 앱을 만듭니다</title>
+<meta name="description" content="냥냥서가·모아냥을 만든 1인 앱 작업실 냥냥비트예요.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="./"><img src="assets/cat.png" alt="" width="34" height="34">냥냥비트</a>
+    <nav><a href="#apps">앱</a><a href="#about">소개</a><a class="lang" href="./" aria-current="page">한국어</a><a class="lang" href="ja/">日本語</a><a class="lang" href="en/">English</a></nav>
+  </header>
+
+  <section class="intro">
+    <h1>고양이랑 같이,<br>작은 앱을 만듭니다</h1>
+    <p>매일 조금씩 손이 가는 앱을 하나씩 만들고 있어요.</p>
+  </section>
+
+  <!-- 앱 보드: 폴라로이드를 누르면 뒤집힌다. 고양이는 고른 카드 뒤에서 빼꼼한다(main.js) -->
+  <section class="apps" id="apps">
+    <div class="board-grid">
+      <div class="card" style="--rot:-2deg" tabindex="0" role="button" aria-pressed="false" aria-label="냥냥서가 뒤집기">
+        <div class="card-in">
+          <div class="face front">
+            <span class="tape" style="--tape-rot:-2deg"></span>
+            <div class="win"><img src="assets/nyangnyang.png" alt=""></div>
+            <div class="lab"><b>냥냥서가</b><span>마음에 든 책 구절을 찍어 모으는 서재</span></div>
+          </div>
+          <div class="face back">
+            <div><h3>냥냥서가</h3><p>책 속 문장을 사진으로 찍으면 글자로 바꿔 기록해 줘요. 읽은 책과 구절이 차곡차곡 쌓여요.</p></div>
+            <div class="links"><a href="/nyangnyang-site/">소개 페이지</a><a href="https://apps.apple.com/kr/app/id6806888734">App Store</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="--rot:1.5deg" tabindex="0" role="button" aria-pressed="false" aria-label="모아냥 뒤집기">
+        <div class="card-in">
+          <div class="face front">
+            <span class="tape" style="--tape-rot:3deg"></span>
+            <div class="win"><img src="assets/moanyang.png" alt=""></div>
+            <div class="lab"><b>모아냥</b><span>안 쓴 돈으로 갖고 싶은 걸 물들이는 저금 앱</span></div>
+          </div>
+          <div class="face back">
+            <div><h3>모아냥</h3><p>아낀 돈을 하루 한 번 적으면, 찍어 둔 물건 사진이 모은 만큼 색으로 차올라요.</p></div>
+            <div class="links"><a href="/moanyang-site/">소개 페이지</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="--rot:-1deg" tabindex="0" role="button" aria-pressed="false" aria-label="다음 앱 뒤집기">
+        <div class="card-in">
+          <div class="face front">
+            <span class="tape" style="--tape-rot:-2deg"></span>
+            <div class="win"><span class="soon">?</span></div>
+            <div class="lab"><b>다음 앱</b><span>고양이가 또 뭔가 준비하고 있어요</span></div>
+          </div>
+          <div class="face back">
+            <div><h3>다음 앱</h3><p>아직 비밀이에요. 나오면 여기에 제일 먼저 붙일게요.</p></div>
+            <div class="links"><span>준비 중</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <img class="sitter" id="sitter" src="assets/cat.png" alt="">
+  </section>
+
+  <section class="about" id="about">
+    <div class="note">
+      <span class="tape"></span>
+      <h2>냥냥비트는요</h2>
+      <p>혼자 앱을 만드는 작은 작업실이에요. 책 읽기, 돈 모으기처럼 꾸준히 하기 어려운 일을 고양이와 함께라면 조금 더 오래 할 수 있다고 믿어요.</p>
+      <span class="hand">새 앱 소식은 SNS에서!</span>
+      <div class="links"><a href="mailto:sokurihj@gmail.com">문의 sokurihj@gmail.com</a></div>
+    </div>
+  </section>
+
+  <footer>냥냥비트 · sokurihj@gmail.com</footer>
+</div>
+<script src="main.js"></script>
+</body>
+</html>

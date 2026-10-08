@@ -1,0 +1,128 @@
+/* 냥냥비트 — 앱 만드는 사람의 작업실 사이트.
+   바탕은 모아냥 소개 페이지와 같은 탈색된 나무 보드, 앱은 폴라로이드로 붙인다(누르면 뒤집힘).
+   움직이는 장치는 둘뿐: 고른 카드 뒤에서 빼꼼하는 고양이, 빈 바닥에 찍히는 발자국. */
+:root {
+  --paper: #fdfcf8;
+  --ink: #171512;
+  --muted: #6f6a5e;
+  --frame: #f1efec;
+  --frame-line: rgba(40, 36, 32, 0.42);
+  --wood-a: #cfc7b6;
+  --wood-b: #c3baa7;
+  --wood-line: rgba(80, 68, 50, 0.15);
+  --tape: rgba(198, 193, 183, 0.72);
+  --tape-line: rgba(52, 48, 42, 0.34);
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; min-height: 100svh; color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  line-height: 1.6; word-break: keep-all;
+  background:
+    repeating-linear-gradient(180deg, rgba(94, 66, 38, 0.05) 0 1px, transparent 1px 6px, rgba(94, 66, 38, 0.028) 6px 7px, transparent 7px 15px),
+    repeating-linear-gradient(180deg, transparent 0 92px, var(--wood-line) 92px 94px),
+    linear-gradient(180deg, var(--wood-a), var(--wood-b));
+  overflow-x: hidden;
+}
+.wrap { max-width: 1000px; margin: 0 auto; padding: 0 16px; position: relative; }
+header.top { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; }
+.logo { font-size: 20px; font-weight: 900; letter-spacing: -0.03em; }
+.top nav { display: flex; gap: 16px; font-size: 14px; font-weight: 700; }
+.top nav a { color: inherit; text-decoration: none; opacity: 0.72; }
+
+.intro { padding: 56px 0 40px; }
+.intro h1 { margin: 0 0 12px; font-size: clamp(32px, 8vw, 54px); line-height: 1.2; letter-spacing: -0.04em; font-weight: 900; }
+.intro p { margin: 0; color: var(--muted); font-weight: 600; font-size: 16px; }
+.hand { font-family: 'Nanum Pen Script', cursive; font-size: 28px; font-weight: 400; color: var(--ink); }
+.intro .hand { display: inline-block; margin-top: 18px; transform: rotate(-3deg); }
+
+/* ── 앱 목록 ── */
+.apps { position: relative; padding: 70px 0 80px; }
+
+/* C 켜짐: 폴라로이드 보드 */
+.board-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 56px 40px; }
+.card {
+  --w: min(78vw, 260px);
+  position: relative; width: var(--w); height: calc(var(--w) * 1.25);
+  perspective: 1000px; cursor: pointer;
+  transform: rotate(var(--rot, 0deg));
+  -webkit-tap-highlight-color: transparent;
+}
+.card-in { position: absolute; inset: 0; transition: transform 600ms cubic-bezier(0.3, 0.7, 0.3, 1); transform-style: preserve-3d; }
+.card.flipped .card-in { transform: rotateY(180deg); }
+.face {
+  position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  background: var(--frame); border: 1px solid var(--frame-line);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  padding: calc(var(--w) * 0.06) calc(var(--w) * 0.06) 0;
+  display: flex; flex-direction: column;
+}
+.face.back { transform: rotateY(180deg); padding: 26px 22px; justify-content: space-between; }
+.tape {
+  position: absolute; left: 50%; top: -11px; width: 92px; height: 22px; z-index: 1;
+  background: var(--tape); border: 1px solid var(--tape-line);
+  transform: translateX(-50%) rotate(var(--tape-rot, -2deg));
+}
+.win { width: 100%; aspect-ratio: 1; background: #fff; box-shadow: inset 0 0 0 1px rgba(40, 36, 32, 0.48); display: grid; place-items: center; overflow: hidden; }
+.win img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.win .soon { font-family: 'Nanum Pen Script', cursive; font-size: 64px; color: rgba(23, 21, 18, 0.35); }
+.lab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.lab b { font-size: 18px; letter-spacing: -0.02em; }
+.lab span { font-size: 13px; color: var(--muted); font-weight: 600; }
+.back h3 { margin: 0 0 8px; font-size: 20px; }
+.back p { margin: 0; font-size: 14.5px; color: #4a463e; }
+.back .links { display: flex; flex-wrap: wrap; gap: 8px; }
+.back .links a, .back .links span {
+  font-size: 13px; font-weight: 800; padding: 7px 12px; border-radius: 999px;
+  background: var(--ink); color: var(--paper); text-decoration: none;
+}
+.back .links span { background: rgba(23, 21, 18, 0.12); color: var(--muted); }
+
+/* 빼꼼 고양이: 카드 뒤에 깔려 위로만 고개를 내민다 */
+.card { z-index: 2; }
+.sitter { position: absolute; left: 0; top: 0; width: 104px; height: auto; z-index: 1; pointer-events: none; }
+
+/* B: 발자국 */
+.paw { position: absolute; width: 22px; height: 22px; pointer-events: none; z-index: 1; animation: paw 1600ms ease-out forwards;
+  z-index: 6; /* 폰에서는 카드 옆 여백에 찍히므로 카드 그림자 위로 */ }
+.paw svg { width: 100%; height: 100%; fill: rgba(23, 21, 18, 0.32); }
+@keyframes paw { 0% { opacity: 0; transform: var(--t) scale(0.6); } 12% { opacity: 1; transform: var(--t) scale(1); } 100% { opacity: 0; transform: var(--t) scale(1); } }
+
+footer { text-align: center; padding: 20px 16px 120px; font-size: 13px; color: rgba(23, 21, 18, 0.6); }
+
+@media (prefers-reduced-motion: reduce) {
+  .card-in { transition: none; }
+  .paw { display: none; }
+}
+
+/* 머리말 언어 링크 */
+.top nav .lang { opacity: 0.5; }
+.top nav .lang[aria-current='page'] { opacity: 1; }
+.logo { display: flex; align-items: center; gap: 8px; color: inherit; text-decoration: none; }
+.logo img { width: 34px; height: 34px; }
+
+/* 소개(만든 사람) — 종이 쪽지 한 장 */
+.about { padding: 20px 0 60px; display: flex; justify-content: center; }
+.note {
+  position: relative; max-width: 560px; width: 100%;
+  background: var(--paper); border: 1px solid var(--frame-line);
+  box-shadow: 0 4px 14px rgba(60, 50, 35, 0.18);
+  padding: 36px 28px 28px; transform: rotate(-0.8deg);
+}
+.note h2 { margin: 0 0 10px; font-size: 24px; letter-spacing: -0.03em; }
+.note p { margin: 0 0 10px; color: #4a463e; font-weight: 500; }
+.note .hand { margin-top: 14px; display: block; transform: rotate(-2deg); transform-origin: left; }
+.note .links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+.note .links a { font-size: 14px; font-weight: 800; color: var(--ink); }
+:lang(ja) .hand { font-family: 'Yomogi', cursive; font-size: 22px; }
+:lang(en) .hand { font-family: 'Caveat', cursive; font-weight: 600; }
+:lang(ja) body, body:lang(ja) { word-break: normal; line-break: strict; }
+
+/* 폰: 로고 + 메뉴 5개가 한 줄에 안 들어간다(390px에서 로고와 메뉴가 붙었다) — 앱·소개 바로가기는 접고 언어만 남긴다 */
+@media (max-width: 600px) {
+  .top nav a:not(.lang) { display: none; }
+  .top nav { gap: 10px; font-size: 13px; }
+  .logo { font-size: 16px; gap: 6px; }
+  .logo img { width: 28px; height: 28px; }
+}

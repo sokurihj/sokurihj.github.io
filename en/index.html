@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NyangNyangBit — Small apps, made with a cat</title>
+<meta name="description" content="NyangNyangBit is a one-person app studio behind Nyangnyang Seoga and MoaNyang.">
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="./"><img src="../assets/cat.png" alt="" width="34" height="34">NyangNyangBit</a>
+    <nav><a href="#apps">Apps</a><a href="#about">About</a><a class="lang" href="../">한국어</a><a class="lang" href="../ja/">日本語</a><a class="lang" href="./" aria-current="page">English</a></nav>
+  </header>
+
+  <section class="intro">
+    <h1>Small apps,<br>made with a cat</h1>
+    <p>Little apps you’ll want to open a bit every day — made one at a time.</p>
+  </section>
+
+  <!-- 앱 보드: 폴라로이드를 누르면 뒤집힌다. 고양이는 고른 카드 뒤에서 빼꼼한다(main.js) -->
+  <section class="apps" id="apps">
+    <div class="board-grid">
+      <div class="card" style="--rot:-2deg" tabindex="0" role="button" aria-pressed="false" aria-label="Nyangnyang Seoga flip">
+        <div class="card-in">
+          <div class="face front">
+            <span class="tape" style="--tape-rot:-2deg"></span>
+            <div class="win"><img src="../assets/nyangnyang.png" alt=""></div>
+            <div class="lab"><b>Nyangnyang Seoga</b><span>Snap and keep your favorite book passages (Korean only)</span></div>
+          </div>
+          <div class="face back">
+            <div><h3>Nyangnyang Seoga</h3><p>Take a photo of a passage and it turns into text you can keep. Your books and favorite lines pile up, page by page.</p></div>
+            <div class="links"><a href="/nyangnyang-site/">Learn more</a><a href="https://apps.apple.com/kr/app/id6806888734">App Store</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="--rot:1.5deg" tabindex="0" role="button" aria-pressed="false" aria-label="MoaNyang flip">
+        <div class="card-in">
+          <div class="face front">
+            <span class="tape" style="--tape-rot:3deg"></span>
+            <div class="win"><img src="../assets/moanyang.png" alt=""></div>
+            <div class="lab"><b>MoaNyang</b><span>Color in what you want with money you didn’t spend</span></div>
+          </div>
+          <div class="face back">
+            <div><h3>MoaNyang</h3><p>Log what you saved once a day, and the photo of what you want fills with color as you go.</p></div>
+            <div class="links"><a href="/moanyang-site/en/">Learn more</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="--rot:-1deg" tabindex="0" role="button" aria-pressed="false" aria-label="Next app flip">
+        <div class="card-in">
+          <div class="face front">
+            <span class="tape" style="--tape-rot:-2deg"></span>
+            <div class="win"><span class="soon">?</span></div>
+            <div class="lab"><b>Next app</b><span>The cat is cooking up something new</span></div>
+          </div>
+          <div class="face back">
+            <div><h3>Next app</h3><p>Still a secret. It’ll be pinned here first when it’s ready.</p></div>
+            <div class="links"><span>Coming soon</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <img class="sitter" id="sitter" src="../assets/cat.png" alt="">
+  </section>
+
+  <section class="about" id="about">
+    <div class="note">
+      <span class="tape"></span>
+      <h2>About NyangNyangBit</h2>
+      <p>A tiny one-person app studio. Habits like reading and saving are hard to keep up — but with a cat by your side, you might just stick with them a little longer.</p>
+      <span class="hand">new apps are announced on social!</span>
+      <div class="links"><a href="mailto:sokurihj@gmail.com">Contact sokurihj@gmail.com</a></div>
+    </div>
+  </section>
+
+  <footer>NyangNyangBit · sokurihj@gmail.com</footer>
+</div>
+<script src="../main.js"></script>
+</body>
+</html>

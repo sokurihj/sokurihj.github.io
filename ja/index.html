@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ニャンニャンビット — ねこと一緒に、小さなアプリをつくっています</title>
+<meta name="description" content="Nyangnyang Seoga・モアニャンをつくった、ひとりのアプリ工房です。">
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yomogi&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="./"><img src="../assets/cat.png" alt="" width="34" height="34">ニャンニャンビット</a>
+    <nav><a href="#apps">アプリ</a><a href="#about">紹介</a><a class="lang" href="../">한국어</a><a class="lang" href="./" aria-current="page">日本語</a><a class="lang" href="../en/">English</a></nav>
+  </header>
+
+  <section class="intro">
+    <h1>ねこと一緒に、<br>小さなアプリを<br>つくっています</h1>
+    <p>毎日ちょっとずつ使いたくなるアプリを、ひとつずつつくっています。</p>
+  </section>
+
+  <!-- 앱 보드: 폴라로이드를 누르면 뒤집힌다. 고양이는 고른 카드 뒤에서 빼꼼한다(main.js) -->
+  <section class="apps" id="apps">
+    <div class="board-grid">
+      <div class="card" style="--rot:-2deg" tabindex="0" role="button" aria-pressed="false" aria-label="Nyangnyang Seoga めくる">
+        <div class="card-in">
+          <div class="face front">
+            <span class="tape" style="--tape-rot:-2deg"></span>
+            <div class="win"><img src="../assets/nyangnyang.png" alt=""></div>
+            <div class="lab"><b>Nyangnyang Seoga</b><span>お気に入りの一節を撮って集める本棚（韓国語のみ）</span></div>
+          </div>
+          <div class="face back">
+            <div><h3>Nyangnyang Seoga</h3><p>本の一節を写真に撮ると文字にして記録してくれます。読んだ本と言葉が少しずつたまっていきます。</p></div>
+            <div class="links"><a href="/nyangnyang-site/">紹介ページ</a><a href="https://apps.apple.com/kr/app/id6806888734">App Store</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="--rot:1.5deg" tabindex="0" role="button" aria-pressed="false" aria-label="モアニャン めくる">
+        <div class="card-in">
+          <div class="face front">
+            <span class="tape" style="--tape-rot:3deg"></span>
+            <div class="win"><img src="../assets/moanyang.png" alt=""></div>
+            <div class="lab"><b>モアニャン</b><span>使わなかったお金で、ほしいものに色をつける貯金アプリ</span></div>
+          </div>
+          <div class="face back">
+            <div><h3>モアニャン</h3><p>節約したお金を1日1回記録すると、撮っておいたほしいものの写真が、たまったぶんだけ色づきます。</p></div>
+            <div class="links"><a href="/moanyang-site/ja/">紹介ページ</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="--rot:-1deg" tabindex="0" role="button" aria-pressed="false" aria-label="次のアプリ めくる">
+        <div class="card-in">
+          <div class="face front">
+            <span class="tape" style="--tape-rot:-2deg"></span>
+            <div class="win"><span class="soon">?</span></div>
+            <div class="lab"><b>次のアプリ</b><span>ねこがまた何か準備しています</span></div>
+          </div>
+          <div class="face back">
+            <div><h3>次のアプリ</h3><p>まだ秘密です。できたら、いちばんにここに貼ります。</p></div>
+            <div class="links"><span>準備中</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <img class="sitter" id="sitter" src="../assets/cat.png" alt="">
+  </section>
+
+  <section class="about" id="about">
+    <div class="note">
+      <span class="tape"></span>
+      <h2>ニャンニャンビットについて</h2>
+      <p>ひとりでアプリをつくっている小さな工房です。読書や貯金のように続けにくいことも、ねこと一緒なら少し長く続けられると思っています。</p>
+      <span class="hand">新しいアプリのお知らせはSNSで!</span>
+      <div class="links"><a href="mailto:sokurihj@gmail.com">お問い合わせ sokurihj@gmail.com</a></div>
+    </div>
+  </section>
+
+  <footer>ニャンニャンビット · sokurihj@gmail.com</footer>
+</div>
+<script src="../main.js"></script>
+</body>
+</html>
