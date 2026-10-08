@@ -17,7 +17,10 @@ body {
   font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Hiragino Sans', sans-serif;
   font-size: 15px; line-height: 1.7; letter-spacing: -0.01em;
   overflow-x: hidden;
+  /* 내용이 화면보다 짧아도 바닥글이 화면 맨 아래에 붙게 — 본문이 남는 높이를 채운다 */
+  display: flex; flex-direction: column; min-height: 100svh;
 }
+body > main, body > .legal-doc { flex: 1 0 auto; width: 100%; }
 :lang(ko) { word-break: keep-all; }
 :lang(ja) { line-break: strict; }
 a { color: inherit; }
@@ -151,7 +154,7 @@ a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px
 .legal-tabs { display: flex; gap: 6px; margin-top: 14px; }
 
 /* 바닥글 — 머리말처럼 화면 양 끝까지(본문 폭에 맞추면 넓은 화면에서 가운데로 몰려 보였다) */
-.foot { display: flex; justify-content: space-between; gap: 16px; padding: 28px 20px 48px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+.foot { display: flex; justify-content: space-between; gap: 16px; padding: 24px 20px calc(24px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
 
 /* 폰 스크롤 발자국 */
 .paw { position: absolute; width: 20px; height: 20px; pointer-events: none; z-index: 5; animation: paw 1600ms ease-out forwards; }
@@ -175,7 +178,7 @@ a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px
   .card .lab b { font-size: 18px; }
   .sitter { width: 58px; }
   .shots { margin: 40px -18px 0; padding: 18px 18px 22px; }
-  .foot { flex-direction: column; gap: 4px; padding: 24px 14px 40px; }
+  .foot { flex-direction: column; gap: 4px; padding: 20px 14px calc(20px + env(safe-area-inset-bottom)); }
 }
 @media (prefers-reduced-motion: reduce) {
   .paw { display: none; }
