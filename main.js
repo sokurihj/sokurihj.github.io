@@ -37,6 +37,17 @@ document.querySelectorAll('.cards').forEach((wrap) => {
   cards.forEach((card) => {
     card.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') peekAt(card); });
     card.addEventListener('focus', () => peekAt(card));
+    // 폰: 호버가 없으니 누르면 고양이가 먼저 옮겨 가 빼꼼한 뒤 페이지로 넘어간다(이미 앉은 카드는 바로 넘어감).
+    // 자리 비교는 누른 순간에 해 둔다 — 탭하면 focus가 먼저 와서 click 때는 고양이가 이미 이 카드에 있다.
+    let touched = false;
+    card.addEventListener('pointerdown', (e) => { touched = e.pointerType !== 'mouse' && seat !== card; });
+    card.addEventListener('click', (e) => {
+      if (!touched || reduced) return;
+      peekAt(card);
+      if (!card.href) return; // "다음 앱" 카드는 링크가 아니라 빼꼼만
+      e.preventDefault();
+      setTimeout(() => { location.href = card.href; }, 640);
+    });
   });
   addEventListener('resize', () => { if (seat) sitter.style.transform = at(spotFor(seat)); });
   // 그림 크기를 알아야 자리를 계산할 수 있다.
