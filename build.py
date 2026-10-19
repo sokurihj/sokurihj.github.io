@@ -54,7 +54,7 @@ UI = {
 # 앱 — 첫 화면 목록·앱 페이지·아래 "다른 앱" 목록이 모두 여기서 나온다. 순서가 곧 번호.
 APPS = [
  dict(slug='nyangnyang', en_name='Nyangnyang Seoga', icon='assets/nyangnyang.png', poster='#efe0c2',
-      shots=[f'assets/shots/nyangnyang-{i}.webp' for i in range(1, 7)],
+      shots={l: [f'assets/shots/nyangnyang-{l}-{i}.webp' for i in range(1, 7)] for l in LANGS},
       store=[('App Store', 'https://apps.apple.com/app/id6806888734')],
       legal={'privacy': {'ko': '/nyangnyang-site/privacy.html', 'ja': '/nyangnyang-site/ja/privacy.html', 'en': '/nyangnyang-site/en/privacy.html'},
              'terms': {'ko': '/nyangnyang-site/terms.html', 'ja': '/nyangnyang-site/ja/terms.html', 'en': '/nyangnyang-site/en/terms.html'}},
