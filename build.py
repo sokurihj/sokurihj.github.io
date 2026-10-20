@@ -8,6 +8,8 @@ import hashlib, os
 from html import escape
 
 LANGS = ('ko', 'ja', 'en')
+# App Store 링크는 나라 표시가 없으면 보는 사람의 나라로 가서 사이트 언어와 어긋난다 — 언어별로 스토어 나라를 못 박는다
+STORE_CC = {'ko': 'kr', 'en': 'us', 'ja': 'jp'}
 PREFIX = {'ko': '/', 'ja': '/ja/', 'en': '/en/'}
 EMAIL = 'sokurihj@gmail.com'
 SNS = [('Threads', 'https://www.threads.com/@nyangnyangbit'), ('Instagram', 'https://www.instagram.com/nyangnyangbit/')]  # 주소를 채우면 소개 페이지에 링크가 생긴다
@@ -55,7 +57,7 @@ UI = {
 APPS = [
  dict(slug='nyangnyang', en_name='Nyangnyang Seoga', icon='assets/nyangnyang.png', poster='#efe0c2',
       shots={l: [f'assets/shots/nyangnyang-{l}-{i}.webp' for i in range(1, 7)] for l in LANGS},
-      store=[('App Store', 'https://apps.apple.com/app/id6806888734')],
+      store=[('App Store', 'https://apps.apple.com/{cc}/app/id6806888734')],
       legal={'privacy': {'ko': '/nyangnyang-site/privacy.html', 'ja': '/nyangnyang-site/ja/privacy.html', 'en': '/nyangnyang-site/en/privacy.html'},
              'terms': {'ko': '/nyangnyang-site/terms.html', 'ja': '/nyangnyang-site/ja/terms.html', 'en': '/nyangnyang-site/en/terms.html'}},
       faq={"ko": "<h3>로그인해야 쓸 수 있나요?</h3>\n<p>아니요. 책 등록, 구절·메모 기록, 단어장, 독서 시간, 고양이 모으기는 로그인 없이 바로 쓸 수 있어요. 로그인은 서버 백업과 피드를 쓰고 싶을 때만 하면 돼요.</p>\n<h3>폰을 바꾸면 기록은 어떻게 옮기나요?</h3>\n<p>기록은 기본적으로 내 기기에만 저장돼서, 앱을 지우면 함께 사라져요. <b>설정 → 기록 보관하기</b>로 파일을 만들어 두면 새 기기에서 \"보관해 둔 파일 불러오기\"로 모두 되살릴 수 있어요. 로그인해 두면 책·구절·메모·단어장은 서버에도 백업돼요.</p>\n<h3>찍은 사진은 어디로 보내지나요?</h3>\n<p>아이폰에서는 사진 속 글자를 기기 안에서 읽어서 사진이 밖으로 나가지 않아요. 자세한 내용은 <a href=\"/nyangnyang-site/privacy.html\">개인정보 처리방침</a>에 있어요.</p>\n<h3>무료인가요?</h3>\n<p>책 기록, 구절 촬영, 단어장, 독서 시간, 고양이, 백업, 피드는 모두 무료이고 횟수 제한도 없어요. 공유 카드 추가 템플릿, 인물 관계도 3명 이상, 태그 그래프 3개 이상만 유료이고, 한 번 사면 계속 쓸 수 있어요. 구독도 광고도 없어요.</p>\n<h3>폰을 바꾸면 산 기능은 어떻게 되나요?</h3>\n<p>같은 Apple 계정으로 로그인한 새 아이폰에서 <b>구매 복원</b>을 누르면 추가 결제 없이 다시 열려요.</p>\n<h3>환불은 어떻게 하나요?</h3>\n<p>결제는 Apple이 처리해서 환불도 Apple에 요청해야 해요. <a href=\"https://reportaproblem.apple.com\">reportaproblem.apple.com</a>에서 신청할 수 있어요. 결제했는데 기능이 열리지 않으면 메일로 알려 주세요.</p>", "ja": "<h3>ログインしないと使えませんか？</h3>\n<p>いいえ。本の登録、文章・メモの記録、読書時間、ねこ集めはログインなしですぐに使えます。ログインが必要なのは、サーバーへのバックアップとフィードを使うときだけです。</p>\n<h3>機種変更のとき、記録はどう移しますか？</h3>\n<p>記録は基本的にこの端末にのみ保存されるため、アプリを削除すると一緒に消えます。<b>設定 → 記録を保管する</b>でファイルを作っておけば、新しい端末の「保管したファイルを読み込む」からすべて戻せます。ログインしていれば、本・文章・メモはサーバーにもバックアップされます。</p>\n<h3>撮った写真はどこに送られますか？</h3>\n<p>iPhoneでは写真の文字を端末内で読み取るため、写真が外部に送られることはありません。詳しくは<a href=\"/nyangnyang-site/ja/privacy.html\">プライバシーポリシー</a>をご確認ください。</p>\n<h3>無料ですか？</h3>\n<p>本の記録、文章の撮影、読書時間、ねこ、バックアップ、フィードはすべて無料で、回数の制限もありません。共有カードの追加テンプレート、人物相関図の3人以上、タググラフの3つ以上のみ有料で、一度購入すればずっと使えます。サブスクリプションも広告もありません。</p>\n<h3>機種変更すると購入した機能はどうなりますか？</h3>\n<p>同じApple アカウントでサインインした新しいiPhoneで<b>購入の復元</b>すると、追加の支払いなしで再び使えます。</p>\n<h3>返金するには？</h3>\n<p>決済はAppleが行うため、返金もAppleにご請求ください。<a href=\"https://reportaproblem.apple.com\">reportaproblem.apple.com</a>から申請できます。購入したのに機能が使えない場合はメールでお知らせください。</p>", "en": "<h3>Do I need to log in?</h3>\n<p>No. Adding books, saving quotes and notes, reading time and collecting cats all work without logging in. You only need to log in for server backup and the feed.</p>\n<h3>How do I move my records to a new phone?</h3>\n<p>Your records are stored only on your device by default, so deleting the app deletes them too. Make a file with <b>Settings → Back up your records</b>, then use “Import a saved file” on your new device to bring everything back. If you’re logged in, your books, quotes and notes are also backed up to the server.</p>\n<h3>Where do my photos go?</h3>\n<p>On iPhone, text in your photos is read on the device itself, so photos never leave it. See the <a href=\"/nyangnyang-site/en/privacy.html\">Privacy Policy</a> for details.</p>\n<h3>Is it free?</h3>\n<p>Book records, quote capture, reading time, cats, backup and the feed are all free with no limits. Only extra share-card templates, character maps with 3+ people and tag graphs with 3+ tags are paid — buy once and keep them forever. No subscriptions, no ads.</p>\n<h3>What happens to my purchases if I switch phones?</h3>\n<p>Tap <b>Restore purchase</b> on your new iPhone signed in with the same Apple Account, and they unlock again at no extra cost.</p>\n<h3>How do I get a refund?</h3>\n<p>Apple processes all payments, so refunds are requested from Apple at <a href=\"https://reportaproblem.apple.com\">reportaproblem.apple.com</a>. If a purchase didn’t unlock, please email us.</p>"},
@@ -171,7 +173,7 @@ for lang in LANGS:
     for a in APPS:
         t = a[lang]; m = a['meta']
         shots = a['shots'][lang] if isinstance(a['shots'], dict) else a['shots']
-        store = ''.join(f'<a class="pill solid" href="{h}">{escape(n)}</a>' for n, h in a['store']) or f'<span class="pill">App Store · {u["soon"]}</span>'
+        store = ''.join(f'<a class="pill solid" href="{h.replace('{cc}', STORE_CC[lang])}">{escape(n)}</a>' for n, h in a['store']) or f'<span class="pill">App Store · {u["soon"]}</span>'
         legal = ''.join(f'<a href="{pick(h, lang)}">{u[k]}</a>' for k, h in a['legal'].items())
         faq = ''
         if 'faq' in a:
