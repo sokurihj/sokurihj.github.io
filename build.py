@@ -78,6 +78,7 @@ APPS = [
  dict(slug='moanyang', en_name='MoaNyang', icon='assets/moanyang.png', poster='#ece8de',
       shots={l: [f'assets/shots/moanyang-{l}-{t}.webp' for t in ('entry', 'home', 'detail', 'history', 'shop')] for l in LANGS},
       store=[],
+      teaser=True,  # 출시 전: 스크린샷·상세 설명을 숨긴다. 앱스토어 승인 뒤 이 줄을 지우면 원래 모양
       legal={'privacy': {'ko': '/moanyang-site/privacy.html', 'ja': '/moanyang-site/ja/privacy.html', 'en': '/moanyang-site/en/privacy.html'}},
       # released: 출시 전이라 비움 — '곧 출시'는 받기 버튼에 이미 있다
       meta={'released': '', 'platform': 'iOS', 'price': {'ko': '무료 · 필름 팩 인앱 구매', 'ja': '無料 · フィルムパックはアプリ内課金', 'en': 'Free · film packs in-app'}},
@@ -135,7 +136,7 @@ def cards(lang, current=None, small=False):
         out.append(f"""    <a class="card" href="{p}{a['slug']}/" style="--rot:{('-2deg', '1.6deg', '-1deg')[i % 3]}; --poster:{a['poster']}">
       <span class="tape"></span>
       <span class="win"><img src="/{a['icon']}" alt="" width="200" height="200"></span>
-      <span class="lab"><b>{escape(t['name'])}</b>{escape(t['kind'])}</span>
+      <span class="lab"><b>{escape(t['name'])}</b>{escape(t['kind'])}{' · ' + UI[lang]['soon'] if a.get('teaser') else ''}</span>
     </a>""")
     n, k = UI[lang]['next_app']
     out.append(f"""    <span class="card soon" style="--rot:1.2deg; --poster:#f3f1ec"><span class="tape"></span><span class="win"><span class="q">?</span></span><span class="lab"><b>{n}</b>{k}</span></span>""")
@@ -186,8 +187,7 @@ for lang in LANGS:
     <p class="lead">{escape(t['lead'])}</p>
     {note}
     <p class="say"><img src="/assets/cat.png" alt="" width="40" height="40"><span>{escape(t['say'])}</span></p>
-    <h2>{u['how']}</h2>
-    <p>{escape(t['how'])}</p>
+    {'' if a.get('teaser') else f"<h2>{u['how']}</h2>\n    <p>{escape(t['how'])}</p>"}
     <h2>{u['platforms']}</h2>
     <div class="pills">{''.join(f'<span class="pill">{escape(x)}</span>' for x in a['pills'] + [pick(m['released'], lang), pick(m['price'], lang)] if x)}</div>
     <h2>{u['get']}</h2>
@@ -196,7 +196,7 @@ for lang in LANGS:
   </aside>
   <div class="main">
     <figure class="hero-pol"><span class="tape"></span><span class="win"><img src="/{a['icon']}" alt="{escape(t['name'])}" width="200" height="200"></span><figcaption>{escape(t['name'])}</figcaption></figure>
-    <div class="shots">{''.join(f'<figure class="shot" style="--rot:{("-1.5deg", "1.2deg", "-0.8deg", "1.6deg", "-1.2deg")[i % 5]}"><span class="tape"></span><img src="/{s}" alt="{escape(t["name"])}" loading="lazy"></figure>' for i, s in enumerate(shots))}</div>
+    <div class="shots">{'' if a.get('teaser') else ''.join(f'<figure class="shot" style="--rot:{("-1.5deg", "1.2deg", "-0.8deg", "1.6deg", "-1.2deg")[i % 5]}"><span class="tape"></span><img src="/{s}" alt="{escape(t["name"])}" loading="lazy"></figure>' for i, s in enumerate(shots))}</div>
     {faq}
     <section class="others" aria-label="{u['others']}"><h2>{u['others']}</h2>
 {cards(lang, a['slug'], small=True)}
