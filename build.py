@@ -114,6 +114,7 @@ def head(lang, title, desc, depth):
 <link href="https://fonts.googleapis.com/css2?family={hand}&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="/style.css?v={ver('style.css')}">
+<script src="/theme.js?v={ver('theme.js')}"></script>
 </head>
 <body>
 """
