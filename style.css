@@ -32,9 +32,10 @@
   --tape-line: rgba(255, 255, 255, 0.14);
   color-scheme: dark;
 }
-/* 낮 모드엔 검은 밤냥, 밤 모드엔 흰 낮냥(cat.png 원본). 두 그림이 같은 비율이라 빼꼼 자리 계산(main.js)이 어긋나지 않는다.
+/* 낮 모드엔 검은 밤냥, 밤 모드엔 흰 낮냥(cat-white.png). 두 그림이 같은 비율이라 빼꼼 자리 계산(main.js)이 어긋나지 않는다.
    content 교체라 HTML을 안 고쳐도 약관 같은 옛 페이지까지 따라온다. */
 :root:not([data-theme='dark']) img[src$='/assets/cat.png'] { content: url('/assets/cat-black.png'); }
+:root[data-theme='dark'] img[src$='/assets/cat.png'] { content: url('/assets/cat-white.png'); }
 :lang(ja) { --title: 'Zen Old Mincho', serif; }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-padding-top: 72px; }
