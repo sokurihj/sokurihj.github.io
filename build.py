@@ -59,6 +59,11 @@ APPS = [
       # 순서: 사진 → 문장(OCR)이 첫 장 — 이 앱의 가장 큰 매력을 첫 화면에서 보이려고. 번호는 파일 이름이고, 대체 글(alts)도 이 순서를 따른다
       shots={l: [f'assets/shots/nyangnyang-{l}-{i}.webp' for i in (2, 4, 1, 3, 5, 6)] for l in LANGS},
       og='assets/og/nyangnyang-{lang}.jpg',
+      promise={
+        'ko': [('로그인 없이 바로 써요', '책 등록부터 구절 기록, 고양이 모으기까지 가입 없이 다 돼요.'), ('기록은 내 폰에 저장돼요', '로그인하기 전에는 책과 구절이 서버에 올라가지 않아요.'), ('광고도 구독도 없어요', '기본 기능은 모두 무료예요. 일부 기능만 한 번 결제하면 계속 써요.')],
+        'ja': [('ログインなしですぐ使えます', '本の登録から文章の記録、ねこ集めまで、会員登録は不要です。'), ('記録はこの端末に保存されます', 'ログインするまで、本や文章がサーバーに送られることはありません。'), ('広告もサブスクもありません', '基本の機能はすべて無料。一部の機能だけ、一度の購入でずっと使えます。')],
+        'en': [('Use it without logging in', 'From adding books to saving quotes and collecting cats, no account needed.'), ('Your records stay on your phone', 'Nothing is uploaded to our server until you log in.'), ('No ads, no subscriptions', 'The core is free. A few extras unlock with a one-time purchase.')],
+      },
       free={'ko': '무료로 시작 · 광고 없음 · 로그인 필요 없음', 'ja': '無料で始められます · 広告なし · ログイン不要', 'en': 'Free to start · No ads · No sign-in needed'},
       alts={'ko': ['찍으면 끝, 문장을 옮겨 적냥! 사진 속 글자를 자동으로 읽어줘요', '마음에 든 문장은 예쁜 카드로 공유냥! 배경과 글꼴을 골라 SNS에 바로', '고양이들이 지키는 나만의 서재냥! 읽은 책과 문장을 모으는 곳', '읽은 책과 문장이 차곡차곡 쌓인다냥! 읽는 중인 책도, 다 읽은 책도 한눈에', '책을 담을 때마다 냥냥이를 만나냥! 하나씩 채워가는 냥냥이 도감', '읽는 시간은 냥냥이가 재준다냥! 잠금화면에서 바로 보는 독서 타이머'], 'ja': ['撮ったらおしまい、一節を書き写すにゃ! 写真の中の文字を自動で読み取ります', 'お気に入りの一節はカードでシェアにゃ! 背景と書体を選んでSNSにすぐ投稿', '猫たちが守るわたしの本棚にゃ! 読んだ本と一節をまとめて置ける場所', '読んだ本と一節がどんどん貯まるにゃ! 読書中も読了もひと目で', '本を登録するたびににゃんこに会える! ひとつずつ集めるにゃんこ図鑑', '読む時間はにゃんこが計るにゃ! ロック画面ですぐ見られる読書タイマー'], 'en': ['Snap it and the quote is saved! Reads the text in your photo for you', 'Turn a quote into a pretty card! Pick a background and font, then share', 'Cats guard your own library! Where your books and quotes live', 'Your books and quotes pile up! Reading or finished, all at a glance', 'Meet a new cat with every book! Fill your cat collection one by one', 'Your cat times your reading! A reading timer on your Lock Screen']},
       store=[('App Store', 'https://apps.apple.com/{cc}/app/id6806888734'), ('Google Play', 'https://play.google.com/store/apps/details?id=com.nyangnyangseoga.app&amp;hl={hl}')],
@@ -204,6 +209,10 @@ for lang in LANGS:
         get_end = f'<section class="get-end" aria-label="{u["get"]}"><h2>{u["get"]}</h2><div class="cta">{store}</div></section>' if a['store'] else ''
         cta_bar = f'<div class="cta-bar away" aria-label="{u["get"]}">{store}</div>' if a['store'] else ''
         alts = a.get('alts', {}).get(lang, [])
+        # 스크린샷을 본 사람이 설치를 망설이는 자리에 믿을 근거 세 가지를 글만으로 보여 준다(카드·아이콘 없음). 출시 전 앱은 약속할 게 없어 만들지 않는다
+        promise = ''
+        if a.get('promise') and a['store']:
+            promise = '<ul class="promise">' + ''.join(f'<li><b>{escape(h)}</b><span>{escape(d)}</span></li>' for h, d in a['promise'][lang]) + '</ul>'
         free_line = f'<p class="free">{escape(a["free"][lang])}</p>' if a.get('free') and a['store'] else ''
         # 스크린샷 띠 아래의 이전/다음 + 현재 위치(main.js가 움직인다). 출시 전 앱처럼 띠가 비면 만들지 않는다
         chev = lambda d: f'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="{d}"/></svg>'
@@ -230,6 +239,7 @@ for lang in LANGS:
   <div class="main">
     <div class="shots">{'' if a.get('teaser') else ''.join(f'<figure class="shot" style="--rot:{("-1.5deg", "1.2deg", "-0.8deg", "1.6deg", "-1.2deg")[i % 5]}"><span class="tape"></span><img src="/{s}" alt="{escape(alts[i] if i < len(alts) else t["name"])}" loading="lazy"></figure>' for i, s in enumerate(shots))}</div>
     {shots_nav}
+    {promise}
     {faq}
     {get_end}
     <section class="others" aria-label="{u['others']}"><h2>{u['others']}</h2>

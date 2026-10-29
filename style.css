@@ -167,6 +167,11 @@ a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px
 .shots-nav button:disabled { opacity: 0.35; cursor: default; }
 .shots-nav svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 .shots-nav .count { min-width: 52px; text-align: center; font-size: 13px; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+/* 믿을 근거 세 가지 — 카드 대신 윗줄 하나와 글만 쓴다 */
+.promise { list-style: none; margin: 56px 0 0; padding: 0; max-width: 680px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.promise li { border-top: 1px solid var(--ink); padding-top: 12px; }
+.promise b { display: block; margin-bottom: 4px; font-size: 15px; line-height: 1.4; text-wrap: balance; }
+.promise span { display: block; font-size: 13px; line-height: 1.65; color: var(--body); }
 .faq { margin-top: 64px; max-width: 680px; }
 .faq h2, .others h2, .get-end h2 { font-size: 12px; font-weight: 800; letter-spacing: 0.04em; color: var(--muted); margin: 0 0 8px; }
 .faq h3 { font-size: 15px; margin: 22px 0 4px; }
@@ -245,6 +250,7 @@ a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px
   .proj:not(.about) .shots { order: 2; margin-top: 28px; }
   .proj:not(.about) .shots-nav { order: 3; }
   .proj:not(.about) .more { order: 4; margin-top: 12px; }
+  .proj:not(.about) .promise { order: 5; margin-top: 36px; }
   .proj:not(.about) .faq { order: 6; }
   .proj:not(.about) .get-end { order: 7; }
   .proj:not(.about) .others { order: 8; }
@@ -263,6 +269,7 @@ a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px
   .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 18px; }
   .card .lab b { font-size: 18px; }
   .sitter { width: 58px; }
+  .promise { grid-template-columns: minmax(0, 1fr); gap: 20px; }
   .shots { margin: 40px -18px 0; padding: 18px 18px 22px; scroll-padding-left: 18px; }
   .foot { flex-direction: column; gap: 4px; padding: 20px 14px calc(20px + env(safe-area-inset-bottom)); }
 }
