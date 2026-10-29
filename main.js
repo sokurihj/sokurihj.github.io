@@ -9,6 +9,43 @@ const onScrollNav = () => nav.classList.toggle('scrolled', scrollY > 8);
 addEventListener('scroll', onScrollNav, { passive: true });
 onScrollNav();
 
+// ── 폰 하단 설치 바: 본문의 설치 버튼이 화면에 보이는 동안엔 접어 둬서 같은 버튼이 두 번 보이지 않게 한다 ──
+// 처음엔 접혀(.away) 있고, 지켜볼 수 없는 브라우저(IntersectionObserver 없음)면 그냥 계속 보여 준다.
+const ctaBar = document.querySelector('.cta-bar');
+if (ctaBar && 'IntersectionObserver' in window) {
+  const visible = new Set();
+  const watcher = new IntersectionObserver((entries) => {
+    entries.forEach((e) => (e.isIntersecting ? visible.add(e.target) : visible.delete(e.target)));
+    ctaBar.classList.toggle('away', visible.size > 0);
+  });
+  document.querySelectorAll('.side .cta, .get-end .cta').forEach((el) => watcher.observe(el));
+} else if (ctaBar) {
+  ctaBar.classList.remove('away');
+}
+
+// ── 앱 화면 띠: 이전/다음 버튼과 "1 / 6" 위치 표시 ──
+// 한 번에 3장 안팎이 보여서 "왼쪽 끝에 놓인 장"을 현재 위치로 본다. 끝까지 가면 마지막 번호가 되게 맞춘다.
+document.querySelectorAll('.shots').forEach((strip) => {
+  const nav = strip.nextElementSibling;
+  if (!nav || !nav.classList.contains('shots-nav')) return;
+  const prev = nav.querySelector('.prev'), next = nav.querySelector('.next'), count = nav.querySelector('.count');
+  const cards = [...strip.querySelectorAll('.shot')];
+  const step = () => (cards[1] ? cards[1].offsetLeft - cards[0].offsetLeft : strip.clientWidth);
+  const atEnd = () => strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 2;
+  function sync() {
+    const i = atEnd() ? cards.length - 1 : Math.round(strip.scrollLeft / step());
+    count.textContent = `${i + 1} / ${cards.length}`;
+    prev.disabled = strip.scrollLeft <= 2;
+    next.disabled = atEnd();
+  }
+  const go = (dir) => strip.scrollBy({ left: dir * step(), behavior: reduced ? 'auto' : 'smooth' });
+  prev.addEventListener('click', () => go(-1));
+  next.addEventListener('click', () => go(1));
+  strip.addEventListener('scroll', sync, { passive: true });
+  addEventListener('resize', sync);
+  sync();
+});
+
 // ── 빼꼼: 앞 카드 뒤로 쏙 숨었다가, 고른 폴라로이드 윗변 뒤에서 얼굴과 손만 내민다 ──
 // 그림 한 장(모아냥 고양이)으로 하려고 아래 절반은 카드에 가려지게 둔다 — 점프는 포즈가 하나라 스티커가 나는 것처럼 어색했다.
 document.querySelectorAll('.cards').forEach((wrap) => {

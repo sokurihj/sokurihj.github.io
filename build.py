@@ -20,7 +20,7 @@ def ver(f):  # 파일이 바뀌면 주소가 바뀌게 — 브라우저가 옛 �
 UI = {
  'ko': dict(studio='냥냥비트', apps='앱', about='소개',
             home_h='고양이랑 같이,<br>작은 앱을 만듭니다', home_p='매일 조금씩 손이 가는 앱을 하나씩 만들고 있어요.',
-            how='이런 앱이에요', platforms='지원 기기', get='받기', soon='곧 출시', faq='자주 묻는 질문',
+            how='이런 앱이에요', platforms='지원 기기', get='받기', prev='이전 화면', next='다음 화면', soon='곧 출시', faq='자주 묻는 질문',
             others='다른 앱', privacy='개인정보 처리방침', terms='이용약관', contact='문의',
             about_h='냥냥비트는요', about_p=['혼자 앱을 만드는 작은 작업실이에요.', '책 읽기, 돈 모으기처럼 꾸준히 하기 어려운 일을 고양이와 함께라면 조금 더 오래 할 수 있다고 믿어요. 그래서 앱마다 고양이가 한 마리씩 살고 있어요.'],
             next_app=('다음 앱', '만드는 중'),
@@ -31,7 +31,7 @@ UI = {
                   ('고양이가 한 마리씩', '앱마다 고양이가 살아요. 혼자 하는 기록이 덜 심심하도록요.')]),
  'ja': dict(studio='ニャンニャンビット', apps='アプリ', about='紹介',
             home_h='ねこと一緒に、<br>小さなアプリを<br>つくっています', home_p='毎日ちょっとずつ使いたくなるアプリを、ひとつずつつくっています。',
-            how='こんなアプリです', platforms='対応端末', get='ダウンロード', soon='近日公開', faq='よくある質問',
+            how='こんなアプリです', platforms='対応端末', get='ダウンロード', prev='前の画面', next='次の画面', soon='近日公開', faq='よくある質問',
             others='ほかのアプリ', privacy='プライバシーポリシー', terms='利用規約', contact='お問い合わせ',
             about_h='ニャンニャンビットについて', about_p=['ひとりでアプリをつくっている小さな工房です。', '読書や貯金のように続けにくいことも、ねこと一緒なら少し長く続けられると思っています。だから、どのアプリにもねこが一匹ずつ住んでいます。'],
             next_app=('次のアプリ', 'つくっています'),
@@ -42,7 +42,7 @@ UI = {
                   ('ねこが一匹ずつ', 'どのアプリにもねこが住んでいます。ひとりで続ける記録が、少しでも楽しくなるように。')]),
  'en': dict(studio='NyangNyangBit', apps='Apps', about='About',
             home_h='Small apps,<br>made with a cat', home_p='Little apps you’ll want to open a bit every day — made one at a time.',
-            how='What it does', platforms='Platforms', get='Get the app', soon='Coming soon', faq='FAQ',
+            how='What it does', platforms='Platforms', get='Get the app', prev='Previous screenshot', next='Next screenshot', soon='Coming soon', faq='FAQ',
             others='Other apps', privacy='Privacy Policy', terms='Terms', contact='Contact',
             about_h='About NyangNyangBit', about_p=['A tiny one-person app studio.', 'Habits like reading and saving are hard to keep up — but with a cat by your side, you might stick with them a little longer. So every app has a cat living in it.'],
             next_app=('Next app', 'In the works'),
@@ -57,6 +57,8 @@ UI = {
 APPS = [
  dict(slug='nyangnyang', en_name='Nyangnyang Seoga', icon='assets/nyangnyang.png', poster='#efe0c2',
       shots={l: [f'assets/shots/nyangnyang-{l}-{i}.webp' for i in range(1, 7)] for l in LANGS},
+      og='assets/og/nyangnyang-{lang}.jpg',
+      alts={'ko': ['고양이들이 지키는 나만의 서재냥! 읽은 책과 문장을 모으는 곳', '찍으면 끝, 문장을 옮겨 적냥! 사진 속 글자를 자동으로 읽어줘요', '읽은 책과 문장이 차곡차곡 쌓인다냥! 읽는 중인 책도, 다 읽은 책도 한눈에', '마음에 든 문장은 예쁜 카드로 공유냥! 배경과 글꼴을 골라 SNS에 바로', '책을 담을 때마다 냥냥이를 만나냥! 하나씩 채워가는 냥냥이 도감', '읽는 시간은 냥냥이가 재준다냥! 잠금화면에서 바로 보는 독서 타이머'], 'ja': ['猫たちが守るわたしの本棚にゃ! 読んだ本と一節をまとめて置ける場所', '撮ったらおしまい、一節を書き写すにゃ! 写真の中の文字を自動で読み取ります', '読んだ本と一節がどんどん貯まるにゃ! 読書中も読了もひと目で', 'お気に入りの一節はカードでシェアにゃ! 背景と書体を選んでSNSにすぐ投稿', '本を登録するたびににゃんこに会える! ひとつずつ集めるにゃんこ図鑑', '読む時間はにゃんこが計るにゃ! ロック画面ですぐ見られる読書タイマー'], 'en': ['Cats guard your own library! Where your books and quotes live', 'Snap it and the quote is saved! Reads the text in your photo for you', 'Your books and quotes pile up! Reading or finished, all at a glance', 'Turn a quote into a pretty card! Pick a background and font, then share', 'Meet a new cat with every book! Fill your cat collection one by one', 'Your cat times your reading! A reading timer on your Lock Screen']},
       store=[('App Store', 'https://apps.apple.com/{cc}/app/id6806888734'), ('Google Play', 'https://play.google.com/store/apps/details?id=com.nyangnyangseoga.app&amp;hl={hl}')],
       legal={'privacy': {'ko': '/nyangnyang-site/privacy.html', 'ja': '/nyangnyang-site/ja/privacy.html', 'en': '/nyangnyang-site/en/privacy.html'},
              'terms': {'ko': '/nyangnyang-site/terms.html', 'ja': '/nyangnyang-site/ja/terms.html', 'en': '/nyangnyang-site/en/terms.html'}},
@@ -98,8 +100,17 @@ APPS = [
               note='')),
 ]
 
-def head(lang, title, desc, depth):
+SITE = 'https://nyangnyangbit.com'
+OG_LOCALE = {'ko': 'ko_KR', 'ja': 'ja_JP', 'en': 'en_US'}
+
+def head(lang, title, desc, depth, path='', image=None):
     up = '../' * depth
+    # 같은 페이지의 다른 언어판(hreflang)과 대표 주소(canonical) — 검색이 언어판을 한 묶음으로 보고, 공유 링크의 주소가 하나로 모인다
+    url = f'{SITE}{PREFIX[lang]}{path}'
+    alts = ''.join(f'<link rel="alternate" hreflang="{l}" href="{SITE}{PREFIX[l]}{path}">\n' for l in LANGS) + f'<link rel="alternate" hreflang="x-default" href="{SITE}/{path}">\n'
+    # 카카오톡·인스타·X에 링크를 올릴 때 뜨는 카드. 앱 페이지는 1200x630 이미지(assets/og), 앱 아이콘만 있으면 작은 카드
+    share = (f'<meta property="og:image" content="{SITE}/{image}">\n<meta name="twitter:card" content="{"summary_large_image" if image.startswith("assets/og/") else "summary"}">\n' if image else '<meta name="twitter:card" content="summary">\n')
+    share += ('<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n' if image and image.startswith('assets/og/') else '')
     hand = {'ko': 'Gowun+Batang:wght@700', 'ja': 'Zen+Old+Mincho:wght@700', 'en': 'Gowun+Batang:wght@700'}[lang]
     return f"""<!doctype html>
 <html lang="{lang}">
@@ -108,7 +119,14 @@ def head(lang, title, desc, depth):
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{escape(title)}</title>
 <meta name="description" content="{escape(desc)}">
-<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="canonical" href="{url}">
+{alts}<meta property="og:type" content="website">
+<meta property="og:site_name" content="{UI[lang]['studio']}">
+<meta property="og:title" content="{escape(title)}">
+<meta property="og:description" content="{escape(desc)}">
+<meta property="og:url" content="{url}">
+<meta property="og:locale" content="{OG_LOCALE[lang]}">
+{share}<link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family={hand}&display=swap" rel="stylesheet">
@@ -175,35 +193,48 @@ for lang in LANGS:
     for a in APPS:
         t = a[lang]; m = a['meta']
         shots = a['shots'][lang] if isinstance(a['shots'], dict) else a['shots']
-        store = ''.join(f'<a class="pill solid" href="{h.replace('{cc}', STORE_CC[lang]).replace('{hl}', lang)}">{escape(n)}</a>' for n, h in a['store']) or f'<span class="pill">App Store · {u["soon"]}</span>'
+        store = ''.join(f'<a class="btn" href="{h.replace('{cc}', STORE_CC[lang]).replace('{hl}', lang)}">{escape(n)}</a>' for n, h in a['store']) or f'<span class="pill">App Store · {u["soon"]}</span>'
         legal = ''.join(f'<a href="{pick(h, lang)}">{u[k]}</a>' for k, h in a['legal'].items())
         faq = ''
         if 'faq' in a:
             faq = f'<section class="faq"><h2>{u["faq"]}</h2>\n' + a['faq'][lang] + '\n</section>'
+        # 출시 전 앱(store가 비어 있음)은 누를 곳이 없으니 마지막 버튼·하단 바를 만들지 않는다
+        get_end = f'<section class="get-end" aria-label="{u["get"]}"><h2>{u["get"]}</h2><div class="cta">{store}</div></section>' if a['store'] else ''
+        cta_bar = f'<div class="cta-bar away" aria-label="{u["get"]}">{store}</div>' if a['store'] else ''
+        alts = a.get('alts', {}).get(lang, [])
+        # 스크린샷 띠 아래의 이전/다음 + 현재 위치(main.js가 움직인다). 출시 전 앱처럼 띠가 비면 만들지 않는다
+        chev = lambda d: f'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="{d}"/></svg>'
+        shots_nav = '' if a.get('teaser') or not shots else f'<div class="shots-nav"><button type="button" class="prev" aria-label="{u["prev"]}" disabled>{chev("M15 5l-7 7 7 7")}</button><span class="count" aria-live="polite">1 / {len(shots)}</span><button type="button" class="next" aria-label="{u["next"]}">{chev("M9 5l7 7-7 7")}</button></div>'
         note = f'<p class="note">{escape(t["note"])}</p>' if t['note'] else ''
-        write(f'{base}{a["slug"]}/index.html', head(lang, f"{t['name']} — {t['kind']} · {u['studio']}", t['lead'], 1) + header(lang, f"{a['slug']}/") + f"""<main class="proj" style="--poster:{a['poster']}">
+        write(f'{base}{a["slug"]}/index.html', head(lang, f"{t['name']} — {t['kind']} · {u['studio']}", t['lead'], 1, f"{a['slug']}/", a.get('og', a['icon']).format(lang=lang)) + header(lang, f"{a['slug']}/") + f"""<main class="proj" style="--poster:{a['poster']}">
   <aside class="side">
+    <div class="head">
     <h1 class="title">{escape(t['name'])}</h1>
     <p class="kind">{escape(t['kind'])}</p>
     <p class="lead">{escape(t['lead'])}</p>
     {note}
+    <div class="cta">{store}</div>
+    </div>
+    <div class="more">
     <p class="say"><img src="/assets/cat.png" alt="" width="40" height="40"><span>{escape(t['say'])}</span></p>
     {'' if a.get('teaser') else f"<h2>{u['how']}</h2>\n    <p>{escape(t['how'])}</p>"}
     <h2>{u['platforms']}</h2>
     <div class="pills">{''.join(f'<span class="pill">{escape(x)}</span>' for x in a['pills'] + [pick(m['released'], lang), pick(m['price'], lang)] if x)}</div>
-    <h2>{u['get']}</h2>
-    <div class="pills">{store}</div>
     <p class="legal">{legal}<a href="mailto:{EMAIL}">{u['contact']}</a></p>
+    </div>
   </aside>
   <div class="main">
     <figure class="hero-pol"><span class="tape"></span><span class="win"><img src="/{a['icon']}" alt="{escape(t['name'])}" width="200" height="200"></span><figcaption>{escape(t['name'])}</figcaption></figure>
-    <div class="shots">{'' if a.get('teaser') else ''.join(f'<figure class="shot" style="--rot:{("-1.5deg", "1.2deg", "-0.8deg", "1.6deg", "-1.2deg")[i % 5]}"><span class="tape"></span><img src="/{s}" alt="{escape(t["name"])}" loading="lazy"></figure>' for i, s in enumerate(shots))}</div>
+    <div class="shots">{'' if a.get('teaser') else ''.join(f'<figure class="shot" style="--rot:{("-1.5deg", "1.2deg", "-0.8deg", "1.6deg", "-1.2deg")[i % 5]}"><span class="tape"></span><img src="/{s}" alt="{escape(alts[i] if i < len(alts) else t["name"])}" loading="lazy"></figure>' for i, s in enumerate(shots))}</div>
+    {shots_nav}
     {faq}
+    {get_end}
     <section class="others" aria-label="{u['others']}"><h2>{u['others']}</h2>
 {cards(lang, a['slug'], small=True)}
     </section>
   </div>
 </main>
+{cta_bar}
 """ + footer(lang))
 
     # ── 소개: 왼쪽에 연락처·앱 목록, 오른쪽에 큰 한마디·만드는 방식·앱 폴라로이드 ──
@@ -212,7 +243,7 @@ for lang in LANGS:
     app_pills = ''.join(f'<a class="pill" href="{PREFIX[lang]}{a["slug"]}/">{escape(a[lang]["name"])}</a>' for a in APPS)
     privacy = ''.join(f'<a href="{pick(a["legal"]["privacy"], lang)}">{escape(a[lang]["name"])}</a>' for a in APPS if 'privacy' in a['legal'])
     ways = ''.join(f'<li><b>{escape(h)}</b><p>{escape(t)}</p></li>' for h, t in u['ways'])
-    write(f'{base}about/index.html', head(lang, f"{u['about_h']} · {u['studio']}", u['about_p'][0], 1) + header(lang, 'about/') + f"""<main class="proj about">
+    write(f'{base}about/index.html', head(lang, f"{u['about_h']} · {u['studio']}", u['about_p'][0], 1, 'about/') + header(lang, 'about/') + f"""<main class="proj about">
   <aside class="side">
     <h1 class="title">{u['studio']}</h1>
     <p class="kind">{u['about_kind']}</p>

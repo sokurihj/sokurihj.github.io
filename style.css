@@ -5,8 +5,7 @@
 :root {
   --bg: #ffffff;
   --ink: #141311;
-  --muted: #7a766d;
-  --faint: #b9b5ac;
+  --muted: #716d64;
   --line: #ecebe7;
   --paper: #fbfaf7;   /* 폴라로이드·메모지·표 머리 같은 종이 */
   --body: #3c3a35;    /* 본문 글자 — ink보다 한 톤 연하다 */
@@ -22,7 +21,6 @@
   --bg: #121110;
   --ink: #ece9e2;
   --muted: #9a968c;
-  --faint: #7d796f;
   --line: #2a2825;
   --paper: #1b1a18;
   --body: #c9c5bb;
@@ -69,7 +67,7 @@ a { color: inherit; }
 .nav nav { display: flex; align-items: center; gap: 18px; font-size: 13px; font-weight: 600; }
 .nav nav a { text-decoration: none; }
 .langs { display: flex; gap: 8px; padding-left: 14px; border-left: 1px solid var(--line); }
-.langs a { color: var(--faint); font-size: 12px; }
+.langs a { color: var(--muted); font-size: 12px; }
 .langs a[aria-current='page'] { color: var(--ink); }
 /* 낮·밤 전환 스위치 — theme.js가 머리말에 붙인다. 밤 모드면 손잡이가 오른쪽으로 가고 달이 해로 바뀐다 */
 .theme-btn { flex: none; width: 42px; height: 24px; padding: 2px; border: 0; border-radius: 999px; background: var(--line); cursor: pointer; }
@@ -102,7 +100,7 @@ main { padding: 120px 24px 160px; max-width: 1180px; margin: 0 auto; }
 a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px rgba(30, 25, 15, 0.12); }
 .card .win, .hero-pol .win { aspect-ratio: 1; background: var(--poster, #f3f1ec); display: grid; place-items: center; box-shadow: inset 0 0 0 1px rgba(30, 25, 15, 0.12); }
 .card .win img { width: 62%; height: auto; border-radius: 22%; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12); }
-.card .q { font-family: var(--title); font-size: 48px; color: var(--faint); }
+.card .q { font-family: var(--title); font-size: 48px; color: var(--muted); }
 .card .lab { padding: 14px 4px 18px; text-align: center; font-size: 12px; color: var(--muted); line-height: 1.5; }
 .card .lab b { display: block; font-family: var(--title); font-size: 22px; color: var(--ink); }
 .card.soon { cursor: default; box-shadow: none; border-style: dashed; }
@@ -123,7 +121,16 @@ a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px
 .side p { margin: 0; color: var(--body); }
 .pills { display: flex; flex-wrap: wrap; gap: 6px; }
 .pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--line); font-size: 12px; font-weight: 700; text-decoration: none; color: var(--muted); }
-.pill.solid { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+/* 설치 버튼 — 이 페이지의 유일한 목적이라 정보 알약(.pill)보다 크고 엄지로 누르기 쉽게(높이 48px) */
+.cta { display: flex; flex-wrap: wrap; gap: 10px; margin: 22px 0 0; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 24px;
+  border-radius: 999px; border: 1px solid var(--ink); background: var(--ink); color: var(--on-ink);
+  font-size: 15px; font-weight: 800; text-decoration: none; transition: transform 160ms, opacity 160ms;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: none; opacity: 0.85; }
+.btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 .side .legal { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 28px; font-size: 12px; }
 .legal a { color: var(--muted); }
 
@@ -144,13 +151,29 @@ a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px
 .hero-pol figcaption { text-align: center; padding: 16px 0 22px; font-family: var(--title); font-size: 22px; font-weight: 700; }
 /* 앱 화면 — 테이프로 붙인 듯 아주 살짝 기울인다 */
 .shots { display: flex; gap: 22px; overflow-x: auto; margin: 48px -24px 0; padding: 18px 24px 22px; scroll-snap-type: x mandatory; }
+/* 출시 전 앱처럼 화면이 없으면 빈 띠가 여백만 차지한다 */
+.shots:empty { display: none; }
 .shot { position: relative; flex: none; margin: 0; width: 210px; transform: rotate(var(--rot, 0deg)); scroll-snap-align: start; }
 .shot img { display: block; width: 100%; height: auto; border-radius: 20px; border: 1px solid var(--line); box-shadow: 0 6px 16px rgba(30, 25, 15, 0.08); }
 .shot .tape { width: 56px; top: -8px; }
+/* 띠 아래의 이전/다음 — 가로 스크롤이 있다는 단서이자 마우스·키보드로 넘기는 길(main.js) */
+.shots-nav { display: flex; align-items: center; gap: 10px; margin-top: 2px; }
+.shots-nav button {
+  display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border-radius: 50%;
+  border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer;
+  transition: background 160ms, opacity 160ms;
+}
+.shots-nav button:hover:not(:disabled) { background: var(--paper); }
+.shots-nav button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.shots-nav button:disabled { opacity: 0.35; cursor: default; }
+.shots-nav svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.shots-nav .count { min-width: 52px; text-align: center; font-size: 13px; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
 .faq { margin-top: 64px; max-width: 680px; }
-.faq h2, .others h2 { font-size: 12px; font-weight: 800; letter-spacing: 0.04em; color: var(--muted); margin: 0 0 8px; }
+.faq h2, .others h2, .get-end h2 { font-size: 12px; font-weight: 800; letter-spacing: 0.04em; color: var(--muted); margin: 0 0 8px; }
 .faq h3 { font-size: 15px; margin: 22px 0 4px; }
 .faq p { margin: 0; color: var(--body); }
+.get-end { margin-top: 56px; }
+.get-end .cta { margin-top: 10px; }
 .others { margin-top: 72px; }
 
 /* ── 소개 — 앱 페이지와 같은 왼쪽/오른쪽 틀 ── */
@@ -197,9 +220,34 @@ a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px
 .paw svg { width: 100%; height: 100%; fill: var(--ink); }
 @keyframes paw { 0% { opacity: 0; transform: var(--t) scale(0.6); } 12% { opacity: 1; transform: var(--t) scale(1); } 100% { opacity: 0; transform: var(--t) scale(1); } }
 
+/* 폰 하단 설치 바 — 한 칸 레이아웃에서만. 본문의 설치 버튼이 화면에 보이면 main.js가 접어 둔다(.away) */
+.cta-bar { display: none; }
+@media (max-width: 860px) {
+  .cta-bar {
+    position: fixed; inset: auto 0 0; z-index: 20; display: flex; gap: 10px;
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); background: var(--nav-bg);
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-top: 1px solid var(--line);
+    transition: transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .cta-bar.away { transform: translateY(100%); }
+  .cta-bar .btn { flex: 1; }
+  /* 고정 바가 바닥글을 덮지 않게 바 높이만큼 비워 둔다 */
+  body:has(.cta-bar) .foot { padding-bottom: calc(20px + 68px + env(safe-area-inset-bottom)); }
+}
 @media (max-width: 860px) {
   .proj { grid-template-columns: minmax(0, 1fr); gap: 40px; }
   .side { position: static; }
+  /* 설명이 길어 앱 화면이 첫 화면 밖 1,200px 아래로 밀리던 것을 고친다 — 소개와 설치 버튼 바로 다음에 앱 화면을 둔다 */
+  .proj:not(.about) { display: flex; flex-direction: column; align-items: stretch; gap: 0; } /* .proj의 align-items: start를 이어받으면 항목이 내용 폭까지 늘어난다 */
+  .proj:not(.about) > .side, .proj:not(.about) > .main { display: contents; }
+  .proj:not(.about) .head { order: 1; }
+  .proj:not(.about) .shots { order: 2; margin-top: 28px; }
+  .proj:not(.about) .shots-nav { order: 3; }
+  .proj:not(.about) .more { order: 4; margin-top: 12px; }
+  .proj:not(.about) .hero-pol { order: 5; margin-top: 48px; width: min(100%, 260px); }
+  .proj:not(.about) .faq { order: 6; }
+  .proj:not(.about) .get-end { order: 7; }
+  .proj:not(.about) .others { order: 8; }
   .about .main { order: -1; } /* 폰에서는 큰 한마디가 먼저, 연락처는 아래로 */
   .shot { width: 170px; }
 }
@@ -218,4 +266,5 @@ a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px
 }
 @media (prefers-reduced-motion: reduce) {
   .paw { display: none; }
+  .cta-bar, .btn, .shots-nav button { transition: none; }
 }
