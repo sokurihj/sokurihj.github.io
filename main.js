@@ -23,8 +23,8 @@ if (ctaBar && 'IntersectionObserver' in window) {
   ctaBar.classList.remove('away');
 }
 
-// ── 앱 화면 띠: 이전/다음 버튼과 "1 / 6" 위치 표시 ──
-// 한 번에 3장 안팎이 보여서 "왼쪽 끝에 놓인 장"을 현재 위치로 본다. 끝까지 가면 마지막 번호가 되게 맞춘다.
+// ── 앱 화면 띠: 이전/다음 버튼과 "1–3 / 6" 위치 표시 ──
+// 보이는 장이 3장 안팎이라 한 장 번호로는 어긋난다. 띠 안에 온전히 들어온 장의 범위를 보여 준다.
 document.querySelectorAll('.shots').forEach((strip) => {
   const nav = strip.nextElementSibling;
   if (!nav || !nav.classList.contains('shots-nav')) return;
@@ -33,8 +33,11 @@ document.querySelectorAll('.shots').forEach((strip) => {
   const step = () => (cards[1] ? cards[1].offsetLeft - cards[0].offsetLeft : strip.clientWidth);
   const atEnd = () => strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 2;
   function sync() {
-    const i = atEnd() ? cards.length - 1 : Math.round(strip.scrollLeft / step());
-    count.textContent = `${i + 1} / ${cards.length}`;
+    const box = strip.getBoundingClientRect();
+    // 살짝 기울인 장의 모서리 오차(8px)는 봐 준다
+    const seen = cards.map((c, i) => [c.getBoundingClientRect(), i + 1]).filter(([r]) => r.left >= box.left - 8 && r.right <= box.right + 8).map(([, n]) => n);
+    const first = seen[0] ?? 1, last = seen[seen.length - 1] ?? first;
+    count.textContent = `${first === last ? first : `${first}–${last}`} / ${cards.length}`;
     prev.disabled = strip.scrollLeft <= 2;
     next.disabled = atEnd();
   }

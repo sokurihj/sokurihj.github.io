@@ -98,7 +98,7 @@ main { padding: 120px 24px 160px; max-width: 1180px; margin: 0 auto; }
   padding: 7% 7% 0; transform: rotate(var(--rot, 0deg)); transition: transform 240ms, box-shadow 240ms;
 }
 a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px rgba(30, 25, 15, 0.12); }
-.card .win, .hero-pol .win { aspect-ratio: 1; background: var(--poster, #f3f1ec); display: grid; place-items: center; box-shadow: inset 0 0 0 1px rgba(30, 25, 15, 0.12); }
+.card .win { aspect-ratio: 1; background: var(--poster, #f3f1ec); display: grid; place-items: center; box-shadow: inset 0 0 0 1px rgba(30, 25, 15, 0.12); }
 .card .win img { width: 62%; height: auto; border-radius: 22%; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12); }
 .card .q { font-family: var(--title); font-size: 48px; color: var(--muted); }
 .card .lab { padding: 14px 4px 18px; text-align: center; font-size: 12px; color: var(--muted); line-height: 1.5; }
@@ -115,7 +115,8 @@ a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px
 .side { position: sticky; top: 100px; }
 .title { font-family: var(--title); font-weight: 700; font-size: clamp(40px, 6vw, 64px); line-height: 1.1; margin: 0 0 6px; letter-spacing: -0.02em; }
 .kind { margin: 0 0 18px; font-weight: 700; }
-.lead { margin: 0 0 8px; color: var(--body); }
+.lead { margin: 0 0 8px; color: var(--ink); font-size: 20px; font-weight: 600; line-height: 1.5; }
+.side .free { margin: 10px 0 0; font-size: 13px; color: var(--muted); }
 .note { margin: 0 0 8px; font-size: 13px; color: var(--muted); }
 .side h2 { margin: 28px 0 6px; font-size: 12px; font-weight: 800; letter-spacing: 0.04em; color: var(--muted); }
 .side p { margin: 0; color: var(--body); }
@@ -141,16 +142,14 @@ a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px
   position: relative; padding: 9px 14px; border: 1.5px solid var(--ink); border-radius: 16px 16px 16px 4px;
   font-weight: 700; font-size: 14px; color: var(--ink); background: var(--bg);
 }
-/* 아이콘 폴라로이드 — 앱 페이지의 대표 그림 */
-.hero-pol {
-  position: relative; margin: 10px 0 0; width: min(100%, 340px);
-  background: var(--paper); border: 1px solid var(--line); box-shadow: 0 10px 26px rgba(30, 25, 15, 0.1);
-  padding: 22px 22px 0; transform: rotate(-2deg);
-}
-.hero-pol .win img { width: 56%; height: auto; border-radius: 22%; box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14); }
-.hero-pol figcaption { text-align: center; padding: 16px 0 22px; font-family: var(--title); font-size: 22px; font-weight: 700; }
+/* 제목 옆 앱 아이콘 — 큰 폴라로이드 대신 스토어에서 본 얼굴을 알아보게만 한다 */
+.titlebar { display: flex; align-items: center; gap: 16px; margin: 0 0 6px; }
+.titlebar .title { margin: 0; min-width: 0; overflow-wrap: anywhere; } /* 안전장치: 자리가 모자라면 옆 열로 넘치지 않고 줄을 바꾼다 */
+/* 영어·일본어 페이지의 제목은 라틴 글자(Nyangnyang Seoga)라 한글보다 훨씬 길다 — 아이콘을 뺀 왼쪽 열 폭(약 280px)에 한 단어가 들어가는 크기로 */
+:lang(en) .titlebar .title, :lang(ja) .titlebar .title { font-size: clamp(34px, 4vw, 46px); }
+.app-icon { flex: none; width: 64px; height: 64px; border-radius: 22%; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14); }
 /* 앱 화면 — 테이프로 붙인 듯 아주 살짝 기울인다 */
-.shots { display: flex; gap: 22px; overflow-x: auto; margin: 48px -24px 0; padding: 18px 24px 22px; scroll-snap-type: x mandatory; }
+.shots { display: flex; gap: 22px; overflow-x: auto; margin: 48px -24px 0; padding: 18px 24px 22px; scroll-snap-type: x mandatory; scroll-padding-left: 24px; }
 /* 출시 전 앱처럼 화면이 없으면 빈 띠가 여백만 차지한다 */
 .shots:empty { display: none; }
 .shot { position: relative; flex: none; margin: 0; width: 210px; transform: rotate(var(--rot, 0deg)); scroll-snap-align: start; }
@@ -225,14 +224,16 @@ a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px
 @media (max-width: 860px) {
   .cta-bar {
     position: fixed; inset: auto 0 0; z-index: 20; display: flex; gap: 10px;
-    padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); background: var(--nav-bg);
-    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-top: 1px solid var(--line);
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); background: var(--bg); border-top: 1px solid var(--line);
     transition: transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
   }
   .cta-bar.away { transform: translateY(100%); }
   .cta-bar .btn { flex: 1; }
   /* 고정 바가 바닥글을 덮지 않게 바 높이만큼 비워 둔다 */
   body:has(.cta-bar) .foot { padding-bottom: calc(20px + 68px + env(safe-area-inset-bottom)); }
+}
+@media (min-width: 861px) {
+  .proj:not(.about) .main > .shots:first-child { margin-top: 0; }
 }
 @media (max-width: 860px) {
   .proj { grid-template-columns: minmax(0, 1fr); gap: 40px; }
@@ -244,7 +245,6 @@ a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px
   .proj:not(.about) .shots { order: 2; margin-top: 28px; }
   .proj:not(.about) .shots-nav { order: 3; }
   .proj:not(.about) .more { order: 4; margin-top: 12px; }
-  .proj:not(.about) .hero-pol { order: 5; margin-top: 48px; width: min(100%, 260px); }
   .proj:not(.about) .faq { order: 6; }
   .proj:not(.about) .get-end { order: 7; }
   .proj:not(.about) .others { order: 8; }
@@ -254,6 +254,8 @@ a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px
 @media (max-width: 600px) {
   main { padding: 96px 18px 64px; }
   .nav { height: 54px; padding: 0 14px; }
+  .app-icon { width: 52px; height: 52px; }
+  .titlebar { gap: 12px; }
   .nav nav { gap: 12px; }
   .nav nav > a { display: none; }
   .langs { border-left: 0; padding-left: 0; }
@@ -261,7 +263,7 @@ a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px
   .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 18px; }
   .card .lab b { font-size: 18px; }
   .sitter { width: 58px; }
-  .shots { margin: 40px -18px 0; padding: 18px 18px 22px; }
+  .shots { margin: 40px -18px 0; padding: 18px 18px 22px; scroll-padding-left: 18px; }
   .foot { flex-direction: column; gap: 4px; padding: 20px 14px calc(20px + env(safe-area-inset-bottom)); }
 }
 @media (prefers-reduced-motion: reduce) {

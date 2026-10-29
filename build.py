@@ -56,9 +56,11 @@ UI = {
 # 앱 — 첫 화면 목록·앱 페이지·아래 "다른 앱" 목록이 모두 여기서 나온다. 순서가 곧 번호.
 APPS = [
  dict(slug='nyangnyang', en_name='Nyangnyang Seoga', icon='assets/nyangnyang.png', poster='#efe0c2',
-      shots={l: [f'assets/shots/nyangnyang-{l}-{i}.webp' for i in range(1, 7)] for l in LANGS},
+      # 순서: 사진 → 문장(OCR)이 첫 장 — 이 앱의 가장 큰 매력을 첫 화면에서 보이려고. 번호는 파일 이름이고, 대체 글(alts)도 이 순서를 따른다
+      shots={l: [f'assets/shots/nyangnyang-{l}-{i}.webp' for i in (2, 4, 1, 3, 5, 6)] for l in LANGS},
       og='assets/og/nyangnyang-{lang}.jpg',
-      alts={'ko': ['고양이들이 지키는 나만의 서재냥! 읽은 책과 문장을 모으는 곳', '찍으면 끝, 문장을 옮겨 적냥! 사진 속 글자를 자동으로 읽어줘요', '읽은 책과 문장이 차곡차곡 쌓인다냥! 읽는 중인 책도, 다 읽은 책도 한눈에', '마음에 든 문장은 예쁜 카드로 공유냥! 배경과 글꼴을 골라 SNS에 바로', '책을 담을 때마다 냥냥이를 만나냥! 하나씩 채워가는 냥냥이 도감', '읽는 시간은 냥냥이가 재준다냥! 잠금화면에서 바로 보는 독서 타이머'], 'ja': ['猫たちが守るわたしの本棚にゃ! 読んだ本と一節をまとめて置ける場所', '撮ったらおしまい、一節を書き写すにゃ! 写真の中の文字を自動で読み取ります', '読んだ本と一節がどんどん貯まるにゃ! 読書中も読了もひと目で', 'お気に入りの一節はカードでシェアにゃ! 背景と書体を選んでSNSにすぐ投稿', '本を登録するたびににゃんこに会える! ひとつずつ集めるにゃんこ図鑑', '読む時間はにゃんこが計るにゃ! ロック画面ですぐ見られる読書タイマー'], 'en': ['Cats guard your own library! Where your books and quotes live', 'Snap it and the quote is saved! Reads the text in your photo for you', 'Your books and quotes pile up! Reading or finished, all at a glance', 'Turn a quote into a pretty card! Pick a background and font, then share', 'Meet a new cat with every book! Fill your cat collection one by one', 'Your cat times your reading! A reading timer on your Lock Screen']},
+      free={'ko': '무료로 시작 · 광고 없음 · 로그인 필요 없음', 'ja': '無料で始められます · 広告なし · ログイン不要', 'en': 'Free to start · No ads · No sign-in needed'},
+      alts={'ko': ['찍으면 끝, 문장을 옮겨 적냥! 사진 속 글자를 자동으로 읽어줘요', '마음에 든 문장은 예쁜 카드로 공유냥! 배경과 글꼴을 골라 SNS에 바로', '고양이들이 지키는 나만의 서재냥! 읽은 책과 문장을 모으는 곳', '읽은 책과 문장이 차곡차곡 쌓인다냥! 읽는 중인 책도, 다 읽은 책도 한눈에', '책을 담을 때마다 냥냥이를 만나냥! 하나씩 채워가는 냥냥이 도감', '읽는 시간은 냥냥이가 재준다냥! 잠금화면에서 바로 보는 독서 타이머'], 'ja': ['撮ったらおしまい、一節を書き写すにゃ! 写真の中の文字を自動で読み取ります', 'お気に入りの一節はカードでシェアにゃ! 背景と書体を選んでSNSにすぐ投稿', '猫たちが守るわたしの本棚にゃ! 読んだ本と一節をまとめて置ける場所', '読んだ本と一節がどんどん貯まるにゃ! 読書中も読了もひと目で', '本を登録するたびににゃんこに会える! ひとつずつ集めるにゃんこ図鑑', '読む時間はにゃんこが計るにゃ! ロック画面ですぐ見られる読書タイマー'], 'en': ['Snap it and the quote is saved! Reads the text in your photo for you', 'Turn a quote into a pretty card! Pick a background and font, then share', 'Cats guard your own library! Where your books and quotes live', 'Your books and quotes pile up! Reading or finished, all at a glance', 'Meet a new cat with every book! Fill your cat collection one by one', 'Your cat times your reading! A reading timer on your Lock Screen']},
       store=[('App Store', 'https://apps.apple.com/{cc}/app/id6806888734'), ('Google Play', 'https://play.google.com/store/apps/details?id=com.nyangnyangseoga.app&amp;hl={hl}')],
       legal={'privacy': {'ko': '/nyangnyang-site/privacy.html', 'ja': '/nyangnyang-site/ja/privacy.html', 'en': '/nyangnyang-site/en/privacy.html'},
              'terms': {'ko': '/nyangnyang-site/terms.html', 'ja': '/nyangnyang-site/ja/terms.html', 'en': '/nyangnyang-site/en/terms.html'}},
@@ -202,6 +204,7 @@ for lang in LANGS:
         get_end = f'<section class="get-end" aria-label="{u["get"]}"><h2>{u["get"]}</h2><div class="cta">{store}</div></section>' if a['store'] else ''
         cta_bar = f'<div class="cta-bar away" aria-label="{u["get"]}">{store}</div>' if a['store'] else ''
         alts = a.get('alts', {}).get(lang, [])
+        free_line = f'<p class="free">{escape(a["free"][lang])}</p>' if a.get('free') and a['store'] else ''
         # 스크린샷 띠 아래의 이전/다음 + 현재 위치(main.js가 움직인다). 출시 전 앱처럼 띠가 비면 만들지 않는다
         chev = lambda d: f'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="{d}"/></svg>'
         shots_nav = '' if a.get('teaser') or not shots else f'<div class="shots-nav"><button type="button" class="prev" aria-label="{u["prev"]}" disabled>{chev("M15 5l-7 7 7 7")}</button><span class="count" aria-live="polite">1 / {len(shots)}</span><button type="button" class="next" aria-label="{u["next"]}">{chev("M9 5l7 7-7 7")}</button></div>'
@@ -209,11 +212,12 @@ for lang in LANGS:
         write(f'{base}{a["slug"]}/index.html', head(lang, f"{t['name']} — {t['kind']} · {u['studio']}", t['lead'], 1, f"{a['slug']}/", a.get('og', a['icon']).format(lang=lang)) + header(lang, f"{a['slug']}/") + f"""<main class="proj" style="--poster:{a['poster']}">
   <aside class="side">
     <div class="head">
-    <h1 class="title">{escape(t['name'])}</h1>
+    <div class="titlebar"><img class="app-icon" src="/{a['icon']}" alt="" width="64" height="64"><h1 class="title">{escape(t['name'])}</h1></div>
     <p class="kind">{escape(t['kind'])}</p>
     <p class="lead">{escape(t['lead'])}</p>
     {note}
     <div class="cta">{store}</div>
+    {free_line}
     </div>
     <div class="more">
     <p class="say"><img src="/assets/cat.png" alt="" width="40" height="40"><span>{escape(t['say'])}</span></p>
@@ -224,7 +228,6 @@ for lang in LANGS:
     </div>
   </aside>
   <div class="main">
-    <figure class="hero-pol"><span class="tape"></span><span class="win"><img src="/{a['icon']}" alt="{escape(t['name'])}" width="200" height="200"></span><figcaption>{escape(t['name'])}</figcaption></figure>
     <div class="shots">{'' if a.get('teaser') else ''.join(f'<figure class="shot" style="--rot:{("-1.5deg", "1.2deg", "-0.8deg", "1.6deg", "-1.2deg")[i % 5]}"><span class="tape"></span><img src="/{s}" alt="{escape(alts[i] if i < len(alts) else t["name"])}" loading="lazy"></figure>' for i, s in enumerate(shots))}</div>
     {shots_nav}
     {faq}
