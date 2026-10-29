@@ -9,7 +9,7 @@ const onScrollNav = () => nav.classList.toggle('scrolled', scrollY > 8);
 addEventListener('scroll', onScrollNav, { passive: true });
 onScrollNav();
 
-// ── 폰 하단 설치 바: 본문의 설치 버튼이 화면에 보이는 동안엔 접어 둬서 같은 버튼이 두 번 보이지 않게 한다 ──
+// ── 폰 하단 설치 바: 맨 위의 설치 버튼이 화면에 보이는 동안엔 접어 둬서 같은 버튼이 두 번 보이지 않게 한다 ──
 // 처음엔 접혀(.away) 있고, 지켜볼 수 없는 브라우저(IntersectionObserver 없음)면 그냥 계속 보여 준다.
 const ctaBar = document.querySelector('.cta-bar');
 if (ctaBar && 'IntersectionObserver' in window) {
@@ -18,7 +18,7 @@ if (ctaBar && 'IntersectionObserver' in window) {
     entries.forEach((e) => (e.isIntersecting ? visible.add(e.target) : visible.delete(e.target)));
     ctaBar.classList.toggle('away', visible.size > 0);
   });
-  document.querySelectorAll('.side .cta, .get-end .cta').forEach((el) => watcher.observe(el));
+  document.querySelectorAll('.side .cta').forEach((el) => watcher.observe(el));
 } else if (ctaBar) {
   ctaBar.classList.remove('away');
 }

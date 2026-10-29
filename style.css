@@ -173,11 +173,23 @@ a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px
 .promise b { display: block; margin-bottom: 4px; font-size: 15px; line-height: 1.4; text-wrap: balance; }
 .promise span { display: block; font-size: 13px; line-height: 1.65; color: var(--body); }
 .faq { margin-top: 64px; max-width: 680px; }
-.faq h2, .others h2, .get-end h2 { font-size: 12px; font-weight: 800; letter-spacing: 0.04em; color: var(--muted); margin: 0 0 8px; }
-.faq h3 { font-size: 15px; margin: 22px 0 4px; }
-.faq p { margin: 0; color: var(--body); }
-.get-end { margin-top: 56px; }
-.get-end .cta { margin-top: 10px; }
+.faq h2, .others h2 { font-size: 12px; font-weight: 800; letter-spacing: 0.04em; color: var(--muted); margin: 0 0 8px; }
+/* 질문 한 줄씩 접어 두고 누르면 답이 열린다(브라우저 기본 details). 열고 닫는 표시 +/−는 선 두 개로 그린다 */
+.faq details { border-top: 1px solid var(--line); }
+.faq details:last-of-type { border-bottom: 1px solid var(--line); }
+.faq summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; padding: 10px 0;
+  font-size: 15px; font-weight: 800; line-height: 1.5; cursor: pointer; list-style: none;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: ""; flex: none; width: 14px; height: 14px;
+  background: linear-gradient(currentColor, currentColor) center / 100% 2px no-repeat, linear-gradient(currentColor, currentColor) center / 2px 100% no-repeat;
+}
+.faq details[open] summary::after { background: linear-gradient(currentColor, currentColor) center / 100% 2px no-repeat; }
+.faq summary:hover { color: var(--muted); }
+.faq summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.faq details p { margin: 0 0 18px; color: var(--body); }
 .others { margin-top: 72px; }
 
 /* ── 소개 — 앱 페이지와 같은 왼쪽/오른쪽 틀 ── */
@@ -252,7 +264,6 @@ a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px
   .proj:not(.about) .more { order: 4; margin-top: 12px; }
   .proj:not(.about) .promise { order: 5; margin-top: 36px; }
   .proj:not(.about) .faq { order: 6; }
-  .proj:not(.about) .get-end { order: 7; }
   .proj:not(.about) .others { order: 8; }
   .about .main { order: -1; } /* 폰에서는 큰 한마디가 먼저, 연락처는 아래로 */
   .shot { width: 170px; }

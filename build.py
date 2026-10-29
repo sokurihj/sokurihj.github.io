@@ -4,7 +4,7 @@
 문구·앱을 고치면 아래 APPS·UI를 고치고 `python3 build.py`를 다시 돌린다(손으로 HTML을 고치면 언어끼리 어긋난다).
 모양은 style.css, 움직임(목록에서 빼꼼하는 고양이·폰 스크롤 발자국)은 main.js.
 처리방침·약관은 예전 저장소(moanyang-site · nyangnyang-site)에 그대로 있다 — 앱스토어에 등록된 주소라 옮기지 않는다."""
-import hashlib, os
+import hashlib, os, re
 from html import escape
 
 LANGS = ('ko', 'ja', 'en')
@@ -204,9 +204,10 @@ for lang in LANGS:
         legal = ''.join(f'<a href="{pick(h, lang)}">{u[k]}</a>' for k, h in a['legal'].items())
         faq = ''
         if 'faq' in a:
-            faq = f'<section class="faq"><h2>{u["faq"]}</h2>\n' + a['faq'][lang] + '\n</section>'
-        # 출시 전 앱(store가 비어 있음)은 누를 곳이 없으니 마지막 버튼·하단 바를 만들지 않는다
-        get_end = f'<section class="get-end" aria-label="{u["get"]}"><h2>{u["get"]}</h2><div class="cta">{store}</div></section>' if a['store'] else ''
+            # 질문(h3)+답(p) 쌍을 눌러서 여는 접이식으로 바꾼다. 본문은 그대로 두고 감싸기만 한다
+            qa = re.sub(r'<h3>(.*?)</h3>\n<p>(.*?)</p>', r'<details><summary>\1</summary><p>\2</p></details>', a['faq'][lang], flags=re.S)
+            faq = f'<section class="faq"><h2>{u["faq"]}</h2>\n' + qa + '\n</section>'
+        # 출시 전 앱(store가 비어 있음)은 누를 곳이 없으니 하단 바를 만들지 않는다
         cta_bar = f'<div class="cta-bar away" aria-label="{u["get"]}">{store}</div>' if a['store'] else ''
         alts = a.get('alts', {}).get(lang, [])
         # 스크린샷을 본 사람이 설치를 망설이는 자리에 믿을 근거 세 가지를 글만으로 보여 준다(카드·아이콘 없음). 출시 전 앱은 약속할 게 없어 만들지 않는다
@@ -241,7 +242,6 @@ for lang in LANGS:
     {shots_nav}
     {promise}
     {faq}
-    {get_end}
     <section class="others" aria-label="{u['others']}"><h2>{u['others']}</h2>
 {cards(lang, a['slug'], small=True)}
     </section>
