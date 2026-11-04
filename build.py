@@ -109,12 +109,46 @@ APPS = [
               say='Saved money is easy to forget when it’s just a number, meow',
               how='Once a day, tap coins and bills to log what you didn’t spend. Snap something you want and AI turns it into a pixel-art snapshot pinned to your board — and it fills with color from the bottom as you save. Buy it and you earn coins to dress your cat in hats, necklaces and glasses.',
               note='')),
+
+ # 출시 전: hidden이면 앱 페이지(/mureonyang/)만 만들고 검색에서 빼며, 첫 화면·소개·다른 앱 목록에는 나오지 않는다.
+ # 출시하면 hidden 줄을 지우고 store에 앱스토어 주소를 넣은 뒤 처리방침 세 곳의 noindex도 지운다
+ dict(slug='mureonyang', en_name='Fetch Cat', icon='assets/mureonyang.png', poster='#ede7e3', hidden=True,
+      shots={l: [f'assets/shots/mureonyang-{l}-{i}.webp' for i in (1, 2, 3, 4)] for l in LANGS},
+      promise={
+        'ko': [('로그인 없이 바로 써요', '가입도 계정도 없어요. 설치하면 바로 시작해요.'), ('링크는 내 기기와 내 iCloud에만 저장돼요', '우리 서버로 보내지 않아요. 클립보드는 저장하려고 누를 때만 읽어요.'), ('광고도 추적도 없어요', '모든 기능이 무료예요. 후원은 선택이에요.')],
+        'ja': [('ログインなしですぐ使えます', '会員登録もアカウントも不要です。インストールしたらすぐ始められます。'), ('リンクは端末と自分のiCloudだけに保存されます', '運営者のサーバーには送りません。クリップボードは、保存のために操作したときだけ読み取ります。'), ('広告もトラッキングもありません', 'すべての機能が無料です。応援は任意です。')],
+        'en': [('Use it without logging in', 'No sign-up, no account. Just install and go.'), ('Links stay on your devices and in your iCloud', 'Nothing goes to our servers. The clipboard is read only when you choose to save.'), ('No ads, no tracking', 'Everything is free. Tips are optional.')],
+      },
+      free={'ko': '무료 · 광고 없음 · 로그인 필요 없음', 'ja': '無料 · 広告なし · ログイン不要', 'en': 'Free · No ads · No sign-in needed'},
+      alts={'ko': ['복사한 링크를 폴더에 차곡차곡 모아요', '공유 버튼으로 바로 저장해요. 사파리·크롬 어디서든 폴더만 고르면 끝', '저장하면 고양이가 알려줘요. 생선을 물고 와서 넣었다고 말해 줘요', '왜 저장했는지 메모로 남겨요'],
+            'ja': ['コピーしたリンクを、フォルダできれいに', '共有ボタンからすぐ保存。SafariやChromeなど、どこからでもフォルダを選ぶだけ', '保存すると、ねこが教えてくれます', '保存した理由も、メモに残せます'],
+            'en': ['Copied links, neatly sorted into folders', 'Save from the Share button in Safari, Chrome or any app. Just pick a folder', 'The cat tells you when a link is saved', 'Add a note to remember why you saved it']},
+      store=[],
+      legal={'privacy': {'ko': '/mureonyang/privacy.html', 'ja': '/ja/mureonyang/privacy.html', 'en': '/en/mureonyang/privacy.html'}},
+      faq={"ko": "<h3>복사한 내용을 읽나요?</h3>\n<p>복사할 때는 웹 주소처럼 보이는지만 확인하고 내용은 읽지 않아요. 저장하려고 폴더를 고르거나 발바닥 버튼을 누를 때만 내용을 읽고, 웹 주소만 저장해요.</p>\n<h3>링크는 어디에 저장되나요?</h3>\n<p>내 기기와 내 iCloud에 저장돼요. Mac과 iPhone이 같은 Apple 계정의 iCloud로 이어지고, 우리 서버로는 보내지 않아서 개발자도 볼 수 없어요.</p>\n<h3>iPhone에서는 어떻게 저장하나요?</h3>\n<p>복사한 링크는 발바닥 버튼을 눌러 붙여넣고, Safari나 크롬 같은 앱에서는 공유 버튼으로 바로 저장해요.</p>\n<h3>후원을 해야 쓸 수 있나요?</h3>\n<p>아니요. 모든 기능이 무료예요. 고양이에게 간식을 선물하는 후원은 선택이에요.</p>",
+           "ja": "<h3>コピーした内容を読み取りますか？</h3>\n<p>コピーしたときは、URLかどうかだけを確認し、内容は読み取りません。保存のためにフォルダを選んだり肉球ボタンを押したりしたときだけ内容を読み取り、保存するのはURLだけです。</p>\n<h3>リンクはどこに保存されますか？</h3>\n<p>端末と自分のiCloudに保存されます。MacとiPhoneが同じApple AccountのiCloudでつながり、運営者のサーバーには送らないので、開発者にも見えません。</p>\n<h3>iPhoneではどうやって保存しますか？</h3>\n<p>コピーしたリンクは肉球ボタンでペーストし、Safariなど他のアプリでは共有ボタンからそのまま保存できます。</p>\n<h3>応援しないと使えませんか？</h3>\n<p>いいえ。すべての機能が無料です。ねこにおやつをプレゼントする応援は任意です。</p>",
+           "en": "<h3>Does it read what I copy?</h3>\n<p>When you copy, the app only checks whether it looks like a web address; it doesn’t read what you copied. It reads the content only when you pick a folder or tap the paw button to save, and it saves only the web address.</p>\n<h3>Where are my links stored?</h3>\n<p>On your devices and in your own iCloud. Mac and iPhone sync through the iCloud of your Apple Account. Nothing goes to our servers, so even the developer can’t see them.</p>\n<h3>How do I save on iPhone?</h3>\n<p>Tap the paw button to paste a copied link, or use the Share button in Safari, Chrome and other apps.</p>\n<h3>Do I need to tip to use it?</h3>\n<p>No. Everything is free. Giving the cat a treat is optional.</p>"},
+      meta={'released': '', 'platform': 'iOS · macOS', 'price': {'ko': '무료 · 후원은 선택', 'ja': '無料 · 応援は任意', 'en': 'Free · optional tips'}},
+      pills=['iPhone · iOS 26+', 'Mac · macOS 26+', '한국어 · English · 日本語'],
+      ko=dict(name='물어냥', kind='링크 저장·정리', lead='링크를 복사하면 고양이가 물어다 줘요. 폴더만 고르면 저장 끝이에요.',
+              say='복사한 링크, 잃어버리지 말라냥',
+              how='Mac에서는 바탕화면에 고양이가 살아요. 웹 주소를 복사하면 말풍선이 뜨고, 폴더를 고르면 저장돼요. iPhone에서는 발바닥 버튼으로 붙여넣거나 공유 버튼으로 바로 저장해요. 제목·아이콘·소개글이 자동으로 채워지고, 메모와 고정, 검색까지 되고, Mac과 iPhone이 내 iCloud로 이어져요.',
+              note=''),
+      ja=dict(name='くわえにゃん', kind='リンクの保存・整理', lead='コピーしたリンクを、ねこがくわえてきます。',
+              say='コピーしたリンク、なくさないでにゃ',
+              how='Macではデスクトップにねこが住んでいます。リンクをコピーすると吹き出しが出て、フォルダを選ぶだけで保存。iPhoneでは肉球ボタンでペーストしたり、ほかのアプリの共有ボタンからそのまま保存したりできます。タイトル・アイコン・説明文は自動で入ります。メモや固定、検索もでき、MacとiPhoneは自分のiCloudで同期されます。',
+              note='アプリは韓国語・英語・日本語に対応しています。'),
+      en=dict(name='Fetch Cat', kind='Save and sort links', lead='Copy a link and the cat fetches it. Pick a folder, and it’s saved.',
+              say='Don’t lose the links you copy, meow',
+              how='On Mac, a cat lives on your desktop. Copy a web address and a speech bubble pops up; pick a folder and the link is saved. On iPhone, tap the paw button to paste, or save straight from the Share button in other apps. Titles, icons and descriptions fill in on their own, and you can add notes, pin favorites and search. Mac and iPhone stay in sync through your own iCloud.',
+              note='The app is available in Korean, English and Japanese.')),
+
 ]
 
 SITE = 'https://nyangnyangbit.com'
 OG_LOCALE = {'ko': 'ko_KR', 'ja': 'ja_JP', 'en': 'en_US'}
 
-def head(lang, title, desc, depth, path='', image=None):
+def head(lang, title, desc, depth, path='', image=None, noindex=False):
     up = '../' * depth
     # 같은 페이지의 다른 언어판(hreflang)과 대표 주소(canonical) — 검색이 언어판을 한 묶음으로 보고, 공유 링크의 주소가 하나로 모인다
     url = f'{SITE}{PREFIX[lang]}{path}'
@@ -130,7 +164,7 @@ def head(lang, title, desc, depth, path='', image=None):
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{escape(title)}</title>
 <meta name="description" content="{escape(desc)}">
-<link rel="canonical" href="{url}">
+{'<meta name="robots" content="noindex">\n' if noindex else ''}<link rel="canonical" href="{url}">
 {alts}<meta property="og:type" content="website">
 <meta property="og:site_name" content="{UI[lang]['studio']}">
 <meta property="og:title" content="{escape(title)}">
@@ -162,7 +196,7 @@ def cards(lang, current=None, small=False):
     p = PREFIX[lang]; out = []
     for i, a in enumerate(APPS):
         t = a[lang]
-        if a['slug'] == current: continue
+        if a['slug'] == current or a.get('hidden'): continue
         out.append(f"""    <a class="card" href="{p}{a['slug']}/" style="--rot:{('-2deg', '1.6deg', '-1deg')[i % 3]}; --poster:{a['poster']}">
       <span class="tape"></span>
       <span class="win"><img src="/{a['icon']}" alt="" width="200" height="200"></span>
@@ -217,14 +251,15 @@ for lang in LANGS:
         alts = a.get('alts', {}).get(lang, [])
         # 스크린샷을 본 사람이 설치를 망설이는 자리에 믿을 근거 세 가지를 글만으로 보여 준다(카드·아이콘 없음). 출시 전 앱은 약속할 게 없어 만들지 않는다
         promise = ''
-        if a.get('promise') and a['store']:
+        # 숨김 앱은 출시 때 모습 그대로 미리 만들어 두는 페이지라 보여 준다
+        if a.get('promise') and (a['store'] or a.get('hidden')):
             promise = '<ul class="promise">' + ''.join(f'<li><b>{escape(h)}</b><span>{escape(d)}</span></li>' for h, d in a['promise'][lang]) + '</ul>'
         free_line = f'<p class="free">{escape(a["free"][lang])}</p>' if a.get('free') and a['store'] else ''
         # 스크린샷 띠 아래의 이전/다음 + 현재 위치(main.js가 움직인다). 출시 전 앱처럼 띠가 비면 만들지 않는다
         chev = lambda d: f'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="{d}"/></svg>'
         shots_nav = '' if a.get('teaser') or not shots else f'<div class="shots-nav"><button type="button" class="prev" aria-label="{u["prev"]}" disabled>{chev("M15 5l-7 7 7 7")}</button><span class="count" aria-live="polite">1 / {len(shots)}</span><button type="button" class="next" aria-label="{u["next"]}">{chev("M9 5l7 7-7 7")}</button></div>'
         note = f'<p class="note">{escape(t["note"])}</p>' if t['note'] else ''
-        write(f'{base}{a["slug"]}/index.html', head(lang, f"{t['name']} — {t['kind']} · {u['studio']}", t['lead'], 1, f"{a['slug']}/", a.get('og', a['icon']).format(lang=lang)) + header(lang, f"{a['slug']}/") + f"""<main class="proj" style="--poster:{a['poster']}">
+        write(f'{base}{a["slug"]}/index.html', head(lang, f"{t['name']} — {t['kind']} · {u['studio']}", t['lead'], 1, f"{a['slug']}/", a.get('og', a['icon']).format(lang=lang), noindex=a.get('hidden')) + header(lang, f"{a['slug']}/") + f"""<main class="proj" style="--poster:{a['poster']}">
   <aside class="side">
     <div class="head">
     <div class="titlebar"><img class="app-icon" src="/{a['icon']}" alt="" width="64" height="64"><h1 class="title">{escape(t['name'])}</h1></div>
@@ -258,8 +293,8 @@ for lang in LANGS:
     # ── 소개: 왼쪽에 연락처·앱 목록, 오른쪽에 큰 한마디·만드는 방식·앱 폴라로이드 ──
     sns = ''.join(f'<a href="{h}">{n}</a>' for n, h in SNS if h)
     sns = f'<h2>{u["sns_h"]}</h2><p class="links">{sns}</p>' if sns else ''
-    app_pills = ''.join(f'<a class="pill" href="{PREFIX[lang]}{a["slug"]}/">{escape(a[lang]["name"])}</a>' for a in APPS)
-    privacy = ''.join(f'<a href="{pick(a["legal"]["privacy"], lang)}">{escape(a[lang]["name"])}</a>' for a in APPS if 'privacy' in a['legal'])
+    app_pills = ''.join(f'<a class="pill" href="{PREFIX[lang]}{a["slug"]}/">{escape(a[lang]["name"])}</a>' for a in APPS if not a.get('hidden'))
+    privacy = ''.join(f'<a href="{pick(a["legal"]["privacy"], lang)}">{escape(a[lang]["name"])}</a>' for a in APPS if 'privacy' in a['legal'] and not a.get('hidden'))
     ways = ''.join(f'<li><b>{escape(h)}</b><p>{escape(t)}</p></li>' for h, t in u['ways'])
     write(f'{base}about/index.html', head(lang, f"{u['about_h']} · {u['studio']}", u['about_p'][0], 1, 'about/') + header(lang, 'about/') + f"""<main class="proj about">
   <aside class="side">
