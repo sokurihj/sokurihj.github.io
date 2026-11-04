@@ -143,6 +143,34 @@ APPS = [
               how='On Mac, a cat lives on your desktop. Copy a web address and a speech bubble pops up; pick a folder and the link is saved. On iPhone, tap the paw button to paste, or save straight from the Share button in other apps. Titles, icons and descriptions fill in on their own, and you can add notes, pin favorites and search. Mac and iPhone stay in sync through your own iCloud.',
               note='The app is available in Korean, English and Japanese.')),
 
+ dict(slug='nyancorder', en_name='Nyancorder', icon='assets/nyancorder.png', poster='#f6dfe0', hidden=True,
+      shots={l: [f'assets/shots/nyancorder-{l}-{i}.webp' for i in range(1, 9)] for l in LANGS},
+      promise={
+        'ko': [('로그인 없이 바로 써요', '가입도 계정도 없어요. 열자마자 바로 찍어요.'), ('사진과 영상은 내 폰에서만 처리돼요', '필터는 기기 안에서 입혀지고, 찍은 건 사진 앱에 저장돼요. 서버로 보내지 않아요.'), ('광고도 구독도 없어요', '홈비디오·흑백은 무료예요. 나머지 필터는 한 번만 사면 계속 써요.')],
+        'ja': [('ログインなしですぐ使えます', '会員登録もアカウントも不要です。開いたらすぐ撮れます。'), ('写真と動画は端末の中だけで処理されます', 'フィルターは端末内でかけられ、撮ったものは写真アプリに保存されます。サーバーには送りません。'), ('広告もサブスクもありません', 'ホームビデオとモノクロは無料。ほかのフィルターは一度の購入でずっと使えます。')],
+        'en': [('Use it without logging in', 'No sign-up, no account. Open it and start shooting.'), ('Photos and videos stay on your phone', 'Filters are applied on your device, and your shots are saved to the Photos app. Nothing goes to a server.'), ('No ads, no subscriptions', 'Home Video and B&W are free. The other filters unlock with a one-time purchase.')],
+      },
+      free={'ko': '무료로 시작 · 광고 없음 · 로그인 필요 없음', 'ja': '無料で始められます · 広告なし · ログイン不要', 'en': 'Free to start · No ads · No sign-in needed'},
+      alts={'ko': ['화질은 옛날 캠코더, 화면은 고양이다냥! 찍으면 추억이 되는 카메라', '톡은 사진, 꾹은 영상이다냥! 셔터 하나로 끝', '필터 7종, 옆으로 쓱 넘긴다냥! 홈비디오·흑백은 무료', '초록빛 나이트샷도 있다냥! 찍은 건 Instagram 스토리로 바로 공유', '일회용 카메라 감성이다냥! 플래시 터진 듯 밝고 따뜻하게', '디카 느낌 그대로다냥! 선명하고 쨍한 색감', '필름 느낌 그대로다냥! 빛바랜 색과 필름 스크래치', '지지직 글리치도 있다냥! 색이 갈라지는 글리치 화면'], 'en': ['Old-camcorder look, cat-themed screen! Shots that feel like memories', 'Tap for photos, hold for videos! One shutter does it all', '7 filters, just swipe! Home Video and B&W are free', 'Even a green Night Shot! Share straight to Instagram Stories', 'Disposable camera vibes! Bright, warm, flash-lit look', 'That classic digicam look! Crisp, punchy colors', 'Film look, just like that! Faded color and film scratches', 'Glitch filter, too! A glitchy, color-splitting picture'], 'ja': ['昔のビデオカメラ画質、画面はねこにゃ！ 撮るだけで思い出になるカメラ', 'タップで写真、長押しで動画にゃ！ シャッターひとつでOK', 'フィルター7種類、横にスワイプにゃ！ ホームビデオとモノクロは無料', '緑色のナイトショットも あるにゃ！ Instagramのストーリーズにすぐ共有', '使い捨てカメラ風に撮れるにゃ！ フラッシュを焚いたような明るさ', 'デジカメ風に撮れるにゃ！ くっきり鮮やかな色合い', 'フィルム写真 みたいにゃ！ 色あせた色合いとフィルムの傷', 'グリッチ加工も あるにゃ！ 色がずれるグリッチ画面']},
+      store=[],
+      legal={'privacy': {'ko': '/nyancorder/privacy.html', 'ja': '/ja/nyancorder/privacy.html', 'en': '/en/nyancorder/privacy.html'}},
+      faq={"ko": "<h3>무료로 쓸 수 있나요?</h3>\n<p>홈비디오·흑백 필터는 무료예요. 나머지 5종도 써 볼 수 있지만, 구매하기 전까지는 사진과 영상에 로고가 붙어요. 한 번 구매하면 7종 모두 로고 없이 계속 쓸 수 있어요.</p>\n<h3>사진과 영상은 어떻게 찍나요?</h3>\n<p>셔터를 톡 누르면 사진, 꾹 누르고 있으면 영상이 찍혀요. 폰을 가로로 들면 가로로 찍혀요.</p>\n<h3>찍은 건 어디에 저장되나요?</h3>\n<p>아이폰의 사진 앱에 저장돼요. 필터는 기기 안에서 입혀지고, 서버로는 보내지 않아요.</p>\n<h3>인스타그램 스토리에 바로 올릴 수 있나요?</h3>\n<p>네. 찍은 뒤 Instagram 스토리 버튼을 누르면 인스타그램으로 바로 넘어가요.</p>",
+           "ja": "<h3>無料で使えますか？</h3>\n<p>ホームビデオとモノクロのフィルターは無料です。ほかの5種類も試せますが、購入するまでは写真と動画にロゴが入ります。一度購入すれば、7種類すべてをロゴなしでずっと使えます。</p>\n<h3>写真と動画はどうやって撮りますか？</h3>\n<p>シャッターをタップすると写真、長押しすると動画が撮れます。スマホを横にすると横向きで撮れます。</p>\n<h3>撮ったものはどこに保存されますか？</h3>\n<p>iPhoneの写真アプリに保存されます。フィルターは端末の中でかけられ、サーバーには送りません。</p>\n<h3>Instagramのストーリーズにすぐ投稿できますか？</h3>\n<p>はい。撮影後にInstagramストーリーのボタンを押すと、Instagramにそのまま移動します。</p>",
+           "en": "<h3>Is it free?</h3>\n<p>The Home Video and B&amp;W filters are free. You can try the other five too, but a logo is added to your photos and videos until you buy them. One purchase unlocks all seven without the logo, for good.</p>\n<h3>How do I take photos and videos?</h3>\n<p>Tap the shutter for a photo, or hold it to record a video. Turn your phone sideways to shoot in landscape.</p>\n<h3>Where are my shots saved?</h3>\n<p>In the Photos app on your iPhone. Filters are applied on your device, and nothing is sent to a server.</p>\n<h3>Can I post straight to Instagram Stories?</h3>\n<p>Yes. After you shoot, tap the Instagram Story button and it opens right in Instagram.</p>"},
+      meta={'released': '', 'platform': 'iOS', 'price': {'ko': '무료 · 전체 필터 한 번 구매', 'ja': '無料 · 全フィルターは買い切り', 'en': 'Free · all filters with a one-time purchase'}},
+      pills=['iPhone · iOS 17+', '한국어 · English · 日本語'],
+      ko=dict(name='냥코더', kind='레트로 캠코더 카메라', lead='옛날 캠코더로 찍은 듯한 사진과 영상을 찍어요. 필터 7종을 옆으로 넘기며 골라요.',
+              say='찍기만 해도 추억 느낌이다냥',
+              how='셔터를 톡 누르면 사진, 꾹 누르면 영상이 찍혀요. 홈비디오·흑백·일회용·디카·필름·나이트샷·지지직, 필터 7종을 옆으로 넘기며 고를 수 있어요. 찍은 사진과 영상은 사진 앱에 저장되고, Instagram 스토리로 바로 공유할 수 있어요. 폰을 가로로 들면 가로로 찍혀요.',
+              note=''),
+      ja=dict(name='ニャンコーダー', title_size='38px', kind='レトロなビデオカメラ', lead='昔のビデオカメラで撮ったような写真と動画が撮れます。',
+              say='撮るだけで思い出っぽくなるにゃ',
+              how='シャッターをタップすると写真、長押しすると動画。ホームビデオ・モノクロ・使い捨て・デジカメ・フィルム・ナイトショット・グリッチの7種類のフィルターを、横にスワイプして選べます。撮った写真と動画は写真アプリに保存され、Instagramのストーリーズにもすぐ共有できます。スマホを横にすると横向きで撮れます。',
+              note='アプリは韓国語・英語・日本語に対応しています。'),
+      en=dict(name='Nyancorder', kind='Retro camcorder camera', lead='Take photos and videos that look like they came from an old camcorder. Swipe through 7 filters.',
+              say='Every shot feels like an old memory, meow',
+              how='Tap the shutter for a photo, hold it for a video. Swipe through 7 filters: Home Video, B&W, Disposable, Digicam, Film, Night Shot and Glitch. Your shots are saved to the Photos app and can go straight to Instagram Stories. Turn your phone sideways to shoot in landscape.',
+              note='The app is available in Korean, English and Japanese.')),
 ]
 
 SITE = 'https://nyangnyangbit.com'
@@ -262,7 +290,7 @@ for lang in LANGS:
         write(f'{base}{a["slug"]}/index.html', head(lang, f"{t['name']} — {t['kind']} · {u['studio']}", t['lead'], 1, f"{a['slug']}/", a.get('og', a['icon']).format(lang=lang), noindex=a.get('hidden')) + header(lang, f"{a['slug']}/") + f"""<main class="proj" style="--poster:{a['poster']}">
   <aside class="side">
     <div class="head">
-    <div class="titlebar"><img class="app-icon" src="/{a['icon']}" alt="" width="64" height="64"><h1 class="title">{escape(t['name'])}</h1></div>
+    <div class="titlebar"><img class="app-icon" src="/{a['icon']}" alt="" width="64" height="64"><h1 class="title"{f' style="font-size:{t["title_size"]}"' if t.get('title_size') else ''}>{escape(t['name'])}</h1></div>
     <p class="kind">{escape(t['kind'])}</p>
     <p class="lead">{escape(t['lead'])}</p>
     {note}
