@@ -235,8 +235,7 @@ def cards(lang, current=None, small=False):
     return f'<div class="cards{" small" if small else ""}">\n' + '\n'.join(out) + '\n<img class="sitter" src="/assets/cat.png" alt=""></div>'
 
 def footer(lang):
-    u = UI[lang]
-    return f"""<footer class="foot"><span>© 2026 {u['studio']}</span><a href="mailto:{EMAIL}">{EMAIL}</a></footer>
+    return f"""<footer class="foot"><span>© 2026 NyangNyangBit</span><a href="mailto:{EMAIL}">{EMAIL}</a></footer>
 <script src="/main.js?v={ver('main.js')}"></script>
 </body>
 </html>
