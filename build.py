@@ -85,7 +85,7 @@ APPS = [
               how='Open your book and take a photo — the passage is recognized and written out for you. Sort your shelf into to-read, reading and finished, and keep notes and even a character map for each book. Every book you add brings one more cat to your cat tower.',
               note='The app is available in Korean, English and Japanese.')),
  dict(slug='moanyang', en_name='MoaNyang', icon='assets/moanyang.png', poster='#ece8de',
-      shots={l: [f'assets/shots/moanyang-{l}-{t}.webp' for t in ('entry', 'home', 'detail', 'history', 'shop')] for l in LANGS},
+      shots={l: [f'assets/shots/moanyang-{l}-{t}.webp' for t in ('entry', 'home', 'detail', 'history', 'glasses', 'cats', 'outfit')] for l in LANGS},
       promise={
         'ko': [('로그인 없이 바로 써요', '가입도 로그인도 없이 시작해요. 처음 한 장은 무료로 변환해 볼 수 있어요.'), ('기록은 내 폰에만 저장돼요', '모은 돈, 날짜별 기록, 물건 목록은 서버로 보내지 않아요. 사진은 픽셀 그림으로 바꿀 때만 AI에 보내고 저장하지 않아요.'), ('광고도 구독도 없어요', '필름 팩은 필요할 때 한 번만 사는 방식이에요. 정기 결제는 없어요.')],
         'ja': [('ログインなしですぐ使えます', '会員登録もログインも不要です。最初の1枚は無料で変換できます。'), ('記録はこの端末にだけ保存されます', 'たまったお金・日ごとの記録・ほしいものリストはサーバーに送りません。写真はドット絵に変換するときだけAIに送り、保存しません。'), ('広告もサブスクもありません', 'フィルムパックは必要なときに1回だけ購入する方式です。定期課金はありません。')],
