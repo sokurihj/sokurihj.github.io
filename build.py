@@ -143,7 +143,9 @@ APPS = [
               how='On Mac, a cat lives on your desktop. Copy a web address and a speech bubble pops up; pick a folder and the link is saved. On iPhone, tap the paw button to paste, or save straight from the Share button in other apps. Titles, icons and descriptions fill in on their own, and you can add notes, pin favorites and search. Mac and iPhone stay in sync through your own iCloud.',
               note='The app is available in Korean, English and Japanese.')),
 
- dict(slug='nyancorder', en_name='Nyancorder', icon='assets/nyancorder.png', poster='#f6dfe0', hidden=True,
+ dict(slug='nyancorder', en_name='Nyancorder', icon='assets/nyancorder.png', poster='#f6dfe0',
+      store=[('App Store', 'https://apps.apple.com/{cc}/app/id6825653409')],
+      soon_store=['Google Play'],  # 안드로이드는 비공개 테스트 중 — 공개되면 이 줄을 지우고 store에 구글 플레이 주소를 넣는다
       shots={l: [f'assets/shots/nyancorder-{l}-{i}.webp' for i in range(1, 9)] for l in LANGS},
       promise={
         'ko': [('로그인 없이 바로 써요', '가입도 계정도 없어요. 열자마자 바로 찍어요.'), ('사진과 영상은 내 폰에서만 처리돼요', '필터는 기기 안에서 입혀지고, 찍은 건 사진 앱에 저장돼요. 서버로 보내지 않아요.'), ('광고도 구독도 없어요', '홈비디오·흑백은 무료예요. 나머지 필터는 한 번만 사면 계속 써요.')],
@@ -152,7 +154,6 @@ APPS = [
       },
       free={'ko': '무료로 시작 · 광고 없음 · 로그인 필요 없음', 'ja': '無料で始められます · 広告なし · ログイン不要', 'en': 'Free to start · No ads · No sign-in needed'},
       alts={'ko': ['화질은 옛날 캠코더, 화면은 고양이. 찍으면 추억이 되는 카메라', '톡은 사진, 꾹은 영상. 셔터 하나로 끝', '필터 7종, 옆으로 쓱 넘겨요. 홈비디오·흑백은 무료', '초록빛 나이트샷도 있어요. 찍은 건 Instagram 스토리로 바로 공유', '일회용 카메라 감성. 플래시 터진 듯 밝고 따뜻하게', '디카 느낌 그대로. 선명하고 쨍한 색감', '필름 느낌 그대로. 빛바랜 색과 필름 스크래치', '지지직 글리치도 있어요. 색이 갈라지는 글리치 화면'], 'en': ['Old-camcorder look, cat-themed screen! Shots that feel like memories', 'Tap for photos, hold for videos! One shutter does it all', '7 filters, just swipe! Home Video and B&W are free', 'Even a green Night Shot! Share straight to Instagram Stories', 'Disposable camera vibes! Bright, warm, flash-lit look', 'That classic digicam look! Crisp, punchy colors', 'Film look, just like that! Faded color and film scratches', 'Glitch filter, too! A glitchy, color-splitting picture'], 'ja': ['昔のビデオカメラ画質、画面はねこデザイン。撮るだけで思い出になるカメラ', 'タップで写真、長押しで動画。シャッターひとつでOK', 'フィルター7種類、スワイプで切り替え。ホームビデオとモノクロは無料', '緑色のナイトショットもあります。Instagramストーリーにすぐ共有', '使い捨てカメラ風に撮れます。フラッシュを焚いたような明るさ', 'デジカメ風に撮れます。くっきり鮮やかな色合い', 'フィルム写真のような仕上がり。色あせた風合いとフィルムの傷', 'グリッチ加工もあります。色がずれるグリッチ画面']},
-      store=[],
       legal={'privacy': {'ko': '/nyancorder/privacy.html', 'ja': '/ja/nyancorder/privacy.html', 'en': '/en/nyancorder/privacy.html'}},
       faq={"ko": "<h3>무료로 쓸 수 있나요?</h3>\n<p>홈비디오·흑백 필터는 무료예요. 나머지 5종도 써 볼 수 있지만, 구매하기 전까지는 사진과 영상에 로고가 붙어요. 한 번 구매하면 7종 모두 로고 없이 계속 쓸 수 있어요.</p>\n<h3>사진과 영상은 어떻게 찍나요?</h3>\n<p>셔터를 톡 누르면 사진, 꾹 누르고 있으면 영상이 찍혀요. 폰을 가로로 들면 가로로 찍혀요.</p>\n<h3>찍은 건 어디에 저장되나요?</h3>\n<p>아이폰의 사진 앱에 저장돼요. 필터는 기기 안에서 입혀지고, 서버로는 보내지 않아요.</p>\n<h3>인스타그램 스토리에 바로 올릴 수 있나요?</h3>\n<p>네. 찍은 뒤 Instagram 스토리 버튼을 누르면 인스타그램으로 바로 넘어가요.</p>",
            "ja": "<h3>無料で使えますか？</h3>\n<p>ホームビデオとモノクロのフィルターは無料です。ほかの5種類も試せますが、購入するまでは写真と動画にロゴが入ります。一度購入すれば、7種類すべてをロゴなしでずっと使えます。</p>\n<h3>写真と動画はどうやって撮りますか？</h3>\n<p>シャッターをタップすると写真、長押しすると動画が撮れます。スマホを横にすると横向きで撮れます。</p>\n<h3>撮ったものはどこに保存されますか？</h3>\n<p>iPhoneの写真アプリに保存されます。フィルターは端末の中でかけられ、サーバーには送りません。</p>\n<h3>Instagramのストーリーズにすぐ投稿できますか？</h3>\n<p>はい。撮影後にInstagramストーリーのボタンを押すと、Instagramにそのまま移動します。</p>",
