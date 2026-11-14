@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""냥냥비트 사이트 전체를 한 틀에서 만든다 — 첫 화면 · 앱 페이지(앱마다 같은 틀) · 소개, 세 언어.
+"""냥비트 사이트 전체를 한 틀에서 만든다 — 첫 화면 · 앱 페이지(앱마다 같은 틀) · 소개, 세 언어.
   한국어 /, /moanyang/, /nyangnyang/, /about/   일본어 /ja/...   영어 /en/...
 문구·앱을 고치면 아래 APPS·UI를 고치고 `python3 build.py`를 다시 돌린다(손으로 HTML을 고치면 언어끼리 어긋난다).
 모양은 style.css, 움직임(목록에서 빼꼼하는 고양이·폰 스크롤 발자국)은 main.js.
@@ -12,39 +12,39 @@ LANGS = ('ko', 'ja', 'en')
 STORE_CC = {'ko': 'kr', 'en': 'us', 'ja': 'jp'}
 PREFIX = {'ko': '/', 'ja': '/ja/', 'en': '/en/'}
 EMAIL = 'sokurihj@gmail.com'
-SNS = [('Threads', 'https://www.threads.com/@nyangnyangbit'), ('Instagram', 'https://www.instagram.com/nyangnyangbit/')]  # 주소를 채우면 소개 페이지에 링크가 생긴다
+SNS = [('Threads', 'https://www.threads.com/@nyangbit.app'), ('Instagram', 'https://www.instagram.com/nyangbit.app/')]  # 주소를 채우면 소개 페이지에 링크가 생긴다
 
 def ver(f):  # 파일이 바뀌면 주소가 바뀌게 — 브라우저가 옛 스타일을 붙들고 있지 않도록
     return hashlib.md5(open(f, 'rb').read()).hexdigest()[:8]
 
 UI = {
- 'ko': dict(studio='냥냥비트', apps='앱', about='소개',
+ 'ko': dict(studio='냥비트', apps='앱', about='소개',
             home_h='고양이랑 같이,<br>작은 앱을 만듭니다', home_p='매일 조금씩 손이 가는 앱을 하나씩 만들고 있어요.',
             how='이런 앱이에요', platforms='지원 기기', get='받기', prev='이전 화면', next='다음 화면', soon='곧 출시', faq='자주 묻는 질문',
             others='다른 앱', privacy='개인정보 처리방침', terms='이용약관', contact='문의',
-            about_h='냥냥비트는요', about_p=['혼자 앱을 만드는 작은 작업실이에요.', '책 읽기, 돈 모으기처럼 꾸준히 하기 어려운 일을 고양이와 함께라면 조금 더 오래 할 수 있다고 믿어요. 그래서 앱마다 고양이가 한 마리씩 살고 있어요.'],
+            about_h='냥비트는요', about_p=['혼자 앱을 만드는 작은 작업실이에요.', '책 읽기, 돈 모으기처럼 꾸준히 하기 어려운 일을 고양이와 함께라면 조금 더 오래 할 수 있다고 믿어요. 그래서 앱마다 고양이가 한 마리씩 살고 있어요.'],
             next_app=('다음 앱', '만드는 중'),
             about_kind='혼자 꾸리는 앱 작업실', about_say='메일은 내가 직접 읽는다냥', made='만든 앱', sns_h='SNS',
             about_big='꾸준히 하기 어려운 일을,<br>고양이랑 같이.',
             ways=[('혼자 다 해요', '기획, 그림, 개발, 문의 답장까지 한 사람이 해요. 메일을 보내면 만든 사람이 직접 읽고 답해요.'),
                   ('하루 잠깐이면 돼요', '오래 붙잡아 두는 앱보다, 하루에 한 번 잠깐 열고 닫는 앱을 만들어요.'),
                   ('고양이가 한 마리씩', '앱마다 고양이가 살아요. 혼자 하는 기록이 덜 심심하도록요.')]),
- 'ja': dict(studio='ニャンニャンビット', apps='アプリ', about='紹介',
+ 'ja': dict(studio='ニャンビット', apps='アプリ', about='紹介',
             home_h='ねこと一緒に、<br>小さなアプリを<br>つくっています', home_p='毎日ちょっとずつ使いたくなるアプリを、ひとつずつつくっています。',
             how='こんなアプリです', platforms='対応端末', get='ダウンロード', prev='前の画面', next='次の画面', soon='近日公開', faq='よくある質問',
             others='ほかのアプリ', privacy='プライバシーポリシー', terms='利用規約', contact='お問い合わせ',
-            about_h='ニャンニャンビットについて', about_p=['ひとりでアプリをつくっている小さな工房です。', '読書や貯金のように続けにくいことも、ねこと一緒なら少し長く続けられると思っています。だから、どのアプリにもねこが一匹ずつ住んでいます。'],
+            about_h='ニャンビットについて', about_p=['ひとりでアプリをつくっている小さな工房です。', '読書や貯金のように続けにくいことも、ねこと一緒なら少し長く続けられると思っています。だから、どのアプリにもねこが一匹ずつ住んでいます。'],
             next_app=('次のアプリ', 'つくっています'),
             about_kind='ひとりで営むアプリ工房', about_say='メールはわたしが直接読むにゃ', made='つくったアプリ', sns_h='SNS',
             about_big='続けにくいことを、<br>ねこと一緒に。',
             ways=[('ぜんぶひとりで', '企画、イラスト、開発、お問い合わせへの返信まで、ひとりで担当しています。メールはつくった本人が読んでお返事します。'),
                   ('一日ちょっとだけ', '長く引きとめるアプリより、一日に一度さっと開いて閉じるアプリをつくっています。'),
                   ('ねこが一匹ずつ', 'どのアプリにもねこが住んでいます。ひとりで続ける記録が、少しでも楽しくなるように。')]),
- 'en': dict(studio='NyangNyangBit', apps='Apps', about='About',
+ 'en': dict(studio='NyangBit', apps='Apps', about='About',
             home_h='Small apps,<br>made with a cat', home_p='Little apps you’ll want to open a bit every day — made one at a time.',
             how='What it does', platforms='Platforms', get='Get the app', prev='Previous screenshot', next='Next screenshot', soon='Coming soon', faq='FAQ',
             others='Other apps', privacy='Privacy Policy', terms='Terms', contact='Contact',
-            about_h='About NyangNyangBit', about_p=['A tiny one-person app studio.', 'Habits like reading and saving are hard to keep up — but with a cat by your side, you might stick with them a little longer. So every app has a cat living in it.'],
+            about_h='About NyangBit', about_p=['A tiny one-person app studio.', 'Habits like reading and saving are hard to keep up — but with a cat by your side, you might stick with them a little longer. So every app has a cat living in it.'],
             next_app=('Next app', 'In the works'),
             about_kind='A one-person app studio', about_say='I read every email myself, meow', made='Apps', sns_h='Social',
             about_big='Hard-to-keep habits,<br>kept with a cat.',
@@ -235,7 +235,7 @@ def cards(lang, current=None, small=False):
     return f'<div class="cards{" small" if small else ""}">\n' + '\n'.join(out) + '\n<img class="sitter" src="/assets/cat.png" alt=""></div>'
 
 def footer(lang):
-    return f"""<footer class="foot"><span>© 2026 NyangNyangBit</span><a href="mailto:{EMAIL}">{EMAIL}</a></footer>
+    return f"""<footer class="foot"><span>© 2026 NyangBit</span><a href="mailto:{EMAIL}">{EMAIL}</a></footer>
 <script src="/main.js?v={ver('main.js')}"></script>
 </body>
 </html>
