@@ -145,7 +145,7 @@ a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px
 /* 제목 옆 앱 아이콘 — 큰 폴라로이드 대신 스토어에서 본 얼굴을 알아보게만 한다 */
 .titlebar { display: flex; align-items: center; gap: 16px; margin: 0 0 6px; }
 .titlebar .title { margin: 0; min-width: 0; overflow-wrap: anywhere; } /* 안전장치: 자리가 모자라면 옆 열로 넘치지 않고 줄을 바꾼다 */
-/* 영어·일본어 페이지의 제목은 라틴 글자(Nyangnyang Seoga)라 한글보다 훨씬 길다 — 아이콘을 뺀 왼쪽 열 폭(약 280px)에 한 단어가 들어가는 크기로 */
+/* 영어(Meow Shelf)·일본어(にゃんにゃん本棚) 페이지의 제목은 한글(냥냥서가)보다 길다 — 아이콘을 뺀 왼쪽 열 폭(약 280px)에 한 단어가 들어가는 크기로 */
 :lang(en) .titlebar .title, :lang(ja) .titlebar .title { font-size: clamp(34px, 4vw, 46px); }
 .app-icon { flex: none; width: 64px; height: 64px; border-radius: 22%; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14); }
 /* 앱 화면 — 테이프로 붙인 듯 아주 살짝 기울인다 */

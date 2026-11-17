@@ -55,7 +55,7 @@ UI = {
 
 # 앱 — 첫 화면 목록·앱 페이지·아래 "다른 앱" 목록이 모두 여기서 나온다. 순서가 곧 번호.
 APPS = [
- dict(slug='nyangnyang', en_name='Nyangnyang Seoga', icon='assets/nyangnyang.png', poster='#efe0c2',
+ dict(slug='nyangnyang', en_name='Meow Shelf', icon='assets/nyangnyang.png', poster='#efe0c2',
       # 순서: 사진 → 문장(OCR)이 첫 장 — 이 앱의 가장 큰 매력을 첫 화면에서 보이려고. 번호는 파일 이름이고, 대체 글(alts)도 이 순서를 따른다
       shots={l: [f'assets/shots/nyangnyang-{l}-{i}.webp' for i in (2, 4, 1, 3, 5, 6)] for l in LANGS},
       og='assets/og/nyangnyang-{lang}.jpg',
@@ -76,11 +76,11 @@ APPS = [
               say='좋은 문장, 사진첩에 묻어 두지 말라냥',
               how='책을 펼치고 카메라로 찍으면 문장을 인식해 옮겨 적어요. 읽기 전·읽는 중·완독으로 서재를 나누고, 구절마다 메모와 단어장, 등장인물 관계도까지 남길 수 있어요. 책을 등록할 때마다 캣타워에 고양이가 한 마리씩 늘어나요.',
               note=''),
-      ja=dict(name='Nyangnyang Seoga', kind='本の一節の記録', lead='今日読んだ一文を、残しておきませんか。本のページを写真に撮ると、文章がそのまま記録されます。',
+      ja=dict(name='にゃんにゃん本棚', kind='本の一節の記録', lead='今日読んだ一文を、残しておきませんか。本のページを写真に撮ると、文章がそのまま記録されます。',
               say='いい一文、カメラロールに埋もれさせないでにゃ',
               how='本を開いてカメラで撮ると、文章を読み取って書き写します。読む前・読書中・読了で本棚を分け、一節ごとのメモや登場人物の相関図も残せます。本を登録するたびに、キャットタワーのねこが一匹ずつ増えていきます。',
               note='アプリは韓国語・英語・日本語に対応しています。'),
-      en=dict(name='Nyangnyang Seoga', kind='Book passage log', lead='Found a line worth keeping? Snap the page and the passage is saved as text.',
+      en=dict(name='Meow Shelf', kind='Book passage log', lead='Found a line worth keeping? Snap the page and the passage is saved as text.',
               say='Don’t let great lines get lost in your camera roll, meow',
               how='Open your book and take a photo — the passage is recognized and written out for you. Sort your shelf into to-read, reading and finished, and keep notes and even a character map for each book. Every book you add brings one more cat to your cat tower.',
               note='The app is available in Korean, English and Japanese.')),
