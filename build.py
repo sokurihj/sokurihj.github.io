@@ -112,16 +112,17 @@ APPS = [
  # 출시 전: hidden이면 앱 페이지(/mureonyang/)만 만들고 검색에서 빼며, 첫 화면·소개·다른 앱 목록에는 나오지 않는다.
  # 출시하면 hidden 줄을 지우고 store에 앱스토어 주소를 넣은 뒤 처리방침 세 곳의 noindex도 지운다
  dict(slug='mureonyang', en_name='Fetch Cat', icon='assets/mureonyang.png', poster='#ede7e3', hidden=True,
-      shots={l: [f'assets/shots/mureonyang-{l}-{i}.webp' for i in (1, 2, 3, 4)] for l in LANGS},
+      # 맥 말풍선(가로 사진)이 첫 장 — 복사하면 바탕화면 냥이가 폴더를 띄우는 게 이 앱의 가장 큰 특징이라서
+      shots={l: [f'assets/shots/mureonyang-{l}-mac-2.webp'] + [f'assets/shots/mureonyang-{l}-{i}.webp' for i in (1, 2, 3, 4)] for l in LANGS},
       promise={
         'ko': [('로그인 없이 바로 써요', '가입도 계정도 없어요. 설치하면 바로 시작해요.'), ('링크는 내 기기와 내 iCloud에만 저장돼요', '우리 서버로 보내지 않아요. 클립보드는 저장하려고 누를 때만 읽어요.'), ('광고도 추적도 없어요', '모든 기능이 무료예요. 후원은 선택이에요.')],
         'ja': [('ログインなしですぐ使えます', '会員登録もアカウントも不要です。インストールしたらすぐ始められます。'), ('リンクは端末と自分のiCloudだけに保存されます', '運営者のサーバーには送りません。クリップボードは、保存のために操作したときだけ読み取ります。'), ('広告もトラッキングもありません', 'すべての機能が無料です。応援は任意です。')],
         'en': [('Use it without logging in', 'No sign-up, no account. Just install and go.'), ('Links stay on your devices and in your iCloud', 'Nothing goes to our servers. The clipboard is read only when you choose to save.'), ('No ads, no tracking', 'Everything is free. Tips are optional.')],
       },
       free={'ko': '무료 · 광고 없음 · 로그인 필요 없음', 'ja': '無料 · 広告なし · ログイン不要', 'en': 'Free · No ads · No sign-in needed'},
-      alts={'ko': ['복사한 링크를 폴더에 차곡차곡 모아요', '공유 버튼으로 바로 저장해요. 사파리·크롬 어디서든 폴더만 고르면 끝', '저장하면 고양이가 알려줘요. 생선을 물고 와서 넣었다고 말해 줘요', '왜 저장했는지 메모로 남겨요'],
-            'ja': ['コピーしたリンクを、フォルダできれいに', '共有ボタンからすぐ保存。SafariやChromeなど、どこからでもフォルダを選ぶだけ', '保存すると、ねこが教えてくれます', '保存した理由も、メモに残せます'],
-            'en': ['Copied links, neatly sorted into folders', 'Save from the Share button in Safari, Chrome or any app. Just pick a folder', 'The cat tells you when a link is saved', 'Add a note to remember why you saved it']},
+      alts={'ko': ['Mac에서 링크를 복사하면 바탕화면 고양이 둘레에 폴더가 떠요. 폴더만 고르면 저장 끝', '복사한 링크를 폴더에 차곡차곡 모아요','공유 버튼으로 바로 저장해요. 사파리·크롬 어디서든 폴더만 고르면 끝', '저장하면 고양이가 알려줘요. 생선을 물고 와서 넣었다고 말해 줘요', '왜 저장했는지 메모로 남겨요'],
+            'ja': ['Macでリンクをコピーすると、デスクトップのねこのまわりにフォルダが出ます。選ぶだけで保存', 'コピーしたリンクを、フォルダできれいに','共有ボタンからすぐ保存。SafariやChromeなど、どこからでもフォルダを選ぶだけ', '保存すると、ねこが教えてくれます', '保存した理由も、メモに残せます'],
+            'en': ['Copy a link on Mac and folders pop up around the desktop cat. Just pick one to save', 'Copied links, neatly sorted into folders','Save from the Share button in Safari, Chrome or any app. Just pick a folder', 'The cat tells you when a link is saved', 'Add a note to remember why you saved it']},
       store=[],
       legal={'privacy': {'ko': '/mureonyang/privacy.html', 'ja': '/ja/mureonyang/privacy.html', 'en': '/en/mureonyang/privacy.html'}},
       faq={"ko": "<h3>복사한 내용을 읽나요?</h3>\n<p>복사할 때는 웹 주소처럼 보이는지만 확인하고 내용은 읽지 않아요. 저장하려고 폴더를 고르거나 발바닥 버튼을 누를 때만 내용을 읽고, 웹 주소만 저장해요.</p>\n<h3>링크는 어디에 저장되나요?</h3>\n<p>내 기기와 내 iCloud에 저장돼요. Mac, iPhone, iPad가 같은 Apple 계정의 iCloud로 이어지고, 우리 서버로는 보내지 않아서 개발자도 볼 수 없어요. iCloud에 로그인하지 않았거나 iCloud 저장 공간이 가득 차면 그 기기에만 저장돼서, 앱을 지우면 링크도 함께 사라질 수 있어요.</p>\n<h3>iPhone과 iPad에서는 어떻게 저장하나요?</h3>\n<p>복사한 링크는 발바닥 버튼을 눌러 붙여넣고, Safari나 크롬 같은 앱에서는 공유 버튼으로 바로 저장해요.</p>\n<h3>후원을 해야 쓸 수 있나요?</h3>\n<p>아니요. 모든 기능이 무료예요. 고양이에게 간식을 선물하는 후원은 선택이에요.</p>\n<h3>개발자에게 연락하려면요?</h3>\n<p>앱 안의 편지로 보내 주세요. iPhone과 iPad는 홈 화면 오른쪽 위의 봉투 버튼, Mac은 설정 &gt; 편지에 있어요. 편지에는 연락처가 담기지 않으니, 답장이 필요하면 아래 문의 메일로 보내 주세요.</p>",
@@ -304,7 +305,7 @@ for lang in LANGS:
     </div>
   </aside>
   <div class="main">
-    <div class="shots">{'' if a.get('teaser') else ''.join(f'<figure class="shot" style="--rot:{("-1.5deg", "1.2deg", "-0.8deg", "1.6deg", "-1.2deg")[i % 5]}"><span class="tape"></span><img src="/{s}" alt="{escape(alts[i] if i < len(alts) else t["name"])}" loading="lazy"></figure>' for i, s in enumerate(shots))}</div>
+    <div class="shots">{'' if a.get('teaser') else ''.join(f'<figure class="shot{" wide" if "-mac-" in s else ""}" style="--rot:{("-1.5deg", "1.2deg", "-0.8deg", "1.6deg", "-1.2deg")[i % 5]}"><span class="tape"></span><img src="/{s}" alt="{escape(alts[i] if i < len(alts) else t["name"])}" loading="lazy"></figure>' for i, s in enumerate(shots))}</div>
     {shots_nav}
     {promise}
     {faq}

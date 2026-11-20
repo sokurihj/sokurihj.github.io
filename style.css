@@ -155,6 +155,9 @@ a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px
 .shot { position: relative; flex: none; margin: 0; width: 210px; transform: rotate(var(--rot, 0deg)); scroll-snap-align: start; }
 .shot img { display: block; width: 100%; height: auto; border-radius: 20px; border: 1px solid var(--line); box-shadow: 0 6px 16px rgba(30, 25, 15, 0.08); }
 .shot .tape { width: 56px; top: -8px; }
+/* 맥 화면처럼 가로로 긴 사진: 세로 사진 칸 폭이면 너무 작아서 넓히고, 세로 사진들 사이 가운데에 둔다 */
+.shot.wide { width: 520px; align-self: center; }
+.shot.wide img { border-radius: 12px; }
 /* 띠 아래의 이전/다음 — 가로 스크롤이 있다는 단서이자 마우스·키보드로 넘기는 길(main.js) */
 .shots-nav { display: flex; align-items: center; gap: 10px; margin-top: 2px; }
 .shots-nav button {
@@ -267,6 +270,7 @@ a.card:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 12px 26px
   .proj:not(.about) .others { order: 8; }
   .about .main { order: -1; } /* 폰에서는 큰 한마디가 먼저, 연락처는 아래로 */
   .shot { width: 170px; }
+  .shot.wide { width: 320px; }
 }
 @media (max-width: 600px) {
   main { padding: 96px 18px 64px; }
